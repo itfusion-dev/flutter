@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:device_preview/device_preview.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+        enabled: true,
+      tools: [
+        ...DevicePreview.defaultTools
+      ],
+    builder: (context) => MyApp()
+    )
+    );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,8 +23,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Boilerplate',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        scaffoldBackgroundColor: Color(0xFFD6D5C9),
       ),
-      home: const MyHomePage(title: 'Flutter Boilerplate Home Page'),
+      home: const MyHomePage(title: 'Logotype'),
     );
   }
 }
@@ -55,7 +65,20 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        leading: IconButton(onPressed: () {  },
+        icon: IconButton(
+          icon: const Icon(Icons.menu),
+          color: Colors.red,
+          onPressed: () {},
+        ),
+        ),
       ),
       body: Center(
         child: Column(
