@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Boilerplate',
       theme: ThemeData(
-
         primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'Flutter Boilerplate Home Page suk'),
+      home: const MyHomePage(title: 'Flutter Boilerplate Home Page'),
     );
   }
 }
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
 
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -30,8 +29,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _incrementCounter() {
-    print("Hello, world!");
+  String responseText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts?_limit=2'));
+
+    if (response.statusCode == 200) {
+      setState(() {
+        responseText = response.body;
+      });
+    } else {
+      setState(() {
+        responseText = 'Error: ${response.statusCode}';
+      });
+    }
   }
 
   @override
@@ -44,13 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Hello, world!', // Display "Hello, world!" in the center
-              style: TextStyle(
-                fontSize: 24, // Adjust the font size as needed
-                fontWeight: FontWeight.bold, // Adjust the font weight as needed
-              ),
-            ),
+            Text(responseText),
           ],
         ),
       ),
