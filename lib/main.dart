@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:device_preview/device_preview.dart';
 
 void main() {
-  runApp(
-    DevicePreview(
-        enabled: true,
-      tools: [
-        ...DevicePreview.defaultTools
-      ],
-    builder: (context) => MyApp()
-    )
-    );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -40,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String responseText = '';
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -48,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> fetchData() async {
-    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts?_limit=2'));
+    final response = await http.get(Uri.parse('https://test.itfusion.kz/api/users'));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -64,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           widget.title,
@@ -72,13 +65,77 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         backgroundColor: Colors.white,
-        leading: IconButton(onPressed: () {  },
-        icon: IconButton(
-          icon: const Icon(Icons.menu),
-          color: Colors.red,
-          onPressed: () {},
-        ),
-        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.menu),
+            color: Colors.red,
+            onPressed: () {
+              _scaffoldKey.currentState!.openEndDrawer();
+            },
+          ),
+        ],
+      ),
+      endDrawer: Drawer(
+          child: ListView(
+            children: <Widget>[
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'ГЛАВНАЯ',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(85, 26, 139, 1),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  // Handle the tap on drawer item 4
+                },
+              ),
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'О НАС',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(85, 26, 139, 1),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  // Handle the tap on drawer item 4
+                },
+              ),
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'РАСПИСАНИЕ ИГР',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(85, 26, 139, 1),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  // Handle the tap on drawer item 4
+                },
+              ),
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'КОНТАКТЫ',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(85, 26, 139, 1),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  // Handle the tap on drawer item 4
+                },
+              ),
+            ],
+          ),
       ),
       body: Center(
         child: Column(
