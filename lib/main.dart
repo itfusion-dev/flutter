@@ -14,8 +14,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Boilerplate',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        scaffoldBackgroundColor: Color(0xFFD6D5C9),
       ),
-      home: const MyHomePage(title: 'Flutter Boilerplate Home Page'),
+      home: const MyHomePage(title: 'Logotype'),
     );
   }
 }
@@ -30,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String responseText = '';
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -38,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> fetchData() async {
-    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts?_limit=2'));
+    final response = await http.get(Uri.parse('https://test.itfusion.kz/api/users'));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -54,8 +56,86 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.menu),
+            color: Colors.red,
+            onPressed: () {
+              _scaffoldKey.currentState!.openEndDrawer();
+            },
+          ),
+        ],
+      ),
+      endDrawer: Drawer(
+          child: ListView(
+            children: <Widget>[
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'ГЛАВНАЯ',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(85, 26, 139, 1),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  // Handle the tap on drawer item 4
+                },
+              ),
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'О НАС',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(85, 26, 139, 1),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  // Handle the tap on drawer item 4
+                },
+              ),
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'РАСПИСАНИЕ ИГР',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(85, 26, 139, 1),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  // Handle the tap on drawer item 4
+                },
+              ),
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'КОНТАКТЫ',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(85, 26, 139, 1),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  // Handle the tap on drawer item 4
+                },
+              ),
+            ],
+          ),
       ),
       body: Center(
         child: Column(
