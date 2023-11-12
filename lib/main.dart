@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'drawer.dart';
 import 'home_page.dart';
 
 void main() {
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xFFD6D5C9),
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
