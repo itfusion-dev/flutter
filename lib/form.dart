@@ -50,6 +50,7 @@ class FormScreen extends StatelessWidget {
                                   ? textColor
                                   : Colors.red,
                               decoration: TextDecoration.underline,
+                              decorationColor: textColor,
                             ),
                           ),
                         ),

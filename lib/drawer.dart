@@ -3,7 +3,6 @@ import 'package:flutter_mobile/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'form.dart';
 import 'home_page.dart';
-
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
   @override
@@ -14,7 +13,10 @@ class CustomDrawer extends StatelessWidget {
     double lightness = 0.4;
     Color iconColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
     return Drawer(
-      width: 200,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+      width: 220,
       child: ListView(
         children: <Widget>[
           Container(
@@ -102,7 +104,7 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Handle the tap on drawer item 3
+              // Handle the tap on drawer item 4
             },
           ),
           ListTile(

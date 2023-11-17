@@ -75,6 +75,7 @@ class LoginForm extends StatelessWidget {
                           fontSize: 2.25 * 16.0,
                           fontWeight: FontWeight.w600,
                           decoration: TextDecoration.underline,
+                          decorationColor: textColor,
                           color: Theme.of(context).brightness == Brightness.light
                               ? textColor
                               : Colors.red,
