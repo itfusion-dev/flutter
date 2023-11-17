@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({Key? key}) : super(key: key);
 
@@ -8,22 +8,34 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    double hue = 1.0;
+    double saturation = 0.6;
+    double lightness = 0.4;
+    Color textColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
     return AppBar(
-      title: const Text(
+      title: Text(
         'Logotype',
-        style: TextStyle(
-          color: Colors.red,
+        style: GoogleFonts.montserrat(
+          color: textColor,
+          fontWeight: FontWeight.w700,
         ),
       ),
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
+      elevation: 0,
       actions: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.menu),
-          color: Colors.red,
-          onPressed: () {
+        InkWell(
+          onTap: () {
             Scaffold.of(context).openEndDrawer();
           },
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.menu,
+              color: textColor,
+              size: 36.0,
+            ),
+          ),
         ),
       ],
     );

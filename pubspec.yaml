@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   http: ^0.13.6
+  google_fonts: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -71,11 +72,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: Montserrat
-      fonts:
-        - asset: web/assets/Montserrat-Regular.ttf
-        - asset: web/assets/Montserrat-Bold.ttf
+#  fonts:
+#    - family: Montserrat
+#      fonts:
+#        - asset: web/assets/Montserrat-Regular.ttf
+#        - asset: web/assets/Montserrat-Bold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
