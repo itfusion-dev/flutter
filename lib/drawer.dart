@@ -45,7 +45,10 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => MyHomePage(),
+                  transitionDuration: Duration(seconds: 0),
+                ),
               );
             },
           ),
@@ -61,7 +64,10 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FormScreen()),
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => FormScreen(),
+                  transitionDuration: Duration(seconds: 0),
+                ),
               );
             },
           ),
@@ -77,7 +83,10 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginForm()),
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => LoginForm(),
+                  transitionDuration: Duration(seconds: 0),
+                ),
               );
             },
           ),

@@ -1,11 +1,46 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'app_bar.dart';
 import 'drawer.dart';
+import 'home_page.dart';
 import 'login.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class FormScreen extends StatelessWidget {
-  const FormScreen({Key? key}) : super(key: key);
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+
+  void register() async {
+    String name = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    String username = usernameController.text;
+
+    final url = Uri.parse("https://test.itfusion.kz/api/users/signup");
+
+    final response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "name": name,
+        "email": email,
+        "password": password,
+        "username": username,
+      }),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("Registration successful");
+    } else {
+      print("Registration failed with status code: ${response.statusCode}");
+      print("Error response body: ${response.body}");
+    }
+    print("Request Body: ${jsonEncode({"username": username, "password": password})}");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +58,6 @@ class FormScreen extends StatelessWidget {
           if (constraints.maxWidth < 1200) {
             maxWidth = constraints.maxWidth;
           }
-
           return Container(
             color: Colors.white,
             constraints: BoxConstraints(
@@ -63,7 +97,10 @@ class FormScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => LoginForm()),
+                              PageRouteBuilder(
+                                pageBuilder: (_, __, ___) => LoginForm(),
+                                transitionDuration: Duration(seconds: 0),
+                              ),
                             );
                           },
                           child: Padding(
@@ -102,6 +139,7 @@ class FormScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 40.0, right: 40.0),
                       margin: EdgeInsets.only(top: 5.0),
                       child: TextField(
+                        controller: nameController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color.fromRGBO(231, 231, 231, 1.0),
@@ -142,6 +180,7 @@ class FormScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 40.0, right: 40.0),
                       margin: EdgeInsets.only(top: 5.0),
                       child: TextField(
+                        controller: usernameController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color.fromRGBO(231, 231, 231, 1.0),
@@ -173,7 +212,6 @@ class FormScreen extends StatelessWidget {
                               color: textColor,
                               fontWeight: FontWeight.w600,
                             ),
-                            // Add more Text widgets or other widgets as needed
                           ),
                         ],
                       ),
@@ -182,6 +220,7 @@ class FormScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 40.0, right: 40.0),
                       margin: EdgeInsets.only(top: 5.0),
                       child: TextField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color.fromRGBO(231, 231, 231, 1.0),
@@ -222,6 +261,7 @@ class FormScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 40.0, right: 40.0),
                       margin: EdgeInsets.only(top: 5.0),
                       child: TextField(
+                        controller: passwordController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color.fromRGBO(231, 231, 231, 1.0),
@@ -247,7 +287,14 @@ class FormScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Add the logic for the button press
+                          register();
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => MyHomePage(),
+                              transitionDuration: Duration(seconds: 0),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: textColor,

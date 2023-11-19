@@ -31,5 +31,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <meta-data
+           android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
+           android:value="flutter_embedded_activity" />
     </application>
 </manifest>
