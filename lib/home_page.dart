@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'drawer.dart';
 import 'app_bar.dart';
+import 'form.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -33,6 +34,33 @@ class EllipsePainter extends CustomPainter {
     canvas.translate(center.dx, center.dy);
     canvas.rotate(rotation * pi / 180);
     canvas.drawOval(Rect.fromCenter(center: Offset.zero, width: 370, height: 185), paint);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+class DoubleEllipsePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0
+      ..color = Color(0xFFAB9090);
+
+    final Offset center = Offset(size.width / 2, size.height / 2);
+
+    _drawRotatedEllipse(canvas, center, -124, 377.967, 199.267, paint);
+
+    _drawRotatedEllipse(canvas, center, -26, 377.967, 199.267, paint);
+  }
+
+  void _drawRotatedEllipse(Canvas canvas, Offset center, double rotation, double width, double height, Paint paint) {
+    canvas.save();
+    canvas.translate(center.dx, center.dy);
+    canvas.rotate(rotation * pi / 180);
+    canvas.drawOval(Rect.fromCenter(center: Offset.zero, width: width, height: height), paint);
     canvas.restore();
   }
 
@@ -383,6 +411,19 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF0A100D),
                         fontSize: 19.0,
+                        height: 1.5,
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                    ),
+                    SizedBox(height: 25),
+                    Text(
+                      responseText,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.archivo(
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF0A100D),
+                        fontSize: 18.0,
                         height: 1.5,
                       ),
                       softWrap: true,
@@ -997,40 +1038,291 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  TableRow(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
-                      ),
-                    ),
-                    children: List.generate(
-                      3, // Number of columns in the table
-                          (_) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: SizedBox(height: 20.0),
-                      ),
-                    ),
-                  ),
-                  TableRow(
-                    children: [
-                      SizedBox(height: 30.0),
-                      SizedBox(height: 10.0),
-                      SizedBox(height: 10.0),
-                    ],
-                  ),
                 ],
               ),
             ),
             Container(
-              height: 400,
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Text(
-                    responseText,
-                    style: const TextStyle(
-                      color: Colors.redAccent,
+              color: Color(0xFFD6D5C9),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: 50),
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 140.0, left: 250.0),
+                          child: CustomPaint(
+                            painter: DoubleEllipsePainter(),
+                          ),
+                        ),
+                        SizedBox(height: 25),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'get started',
+                              style: GoogleFonts.silkscreen(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF0A100D),
+                                fontSize: 32.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 25),
+                            Text(
+                              'Ready to dive into the gripping world of Mafia Madness? '
+                                  'Don’t wait any longer! Register, pick your game, and '
+                                  'start outsmarting your rivals today!',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF0A100D),
+                                fontSize: 18.0,
+                                height: 1.5,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      margin: EdgeInsets.only(top: 20.0),
+                      width: double.infinity,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => FormScreen(),
+                              transitionDuration: Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Sign up now',
+                            style: GoogleFonts.archivo(
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFFD6D5C9),
+                              fontSize: 19.0,
+                              height: 1.5,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 50),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 50),
+                    Stack(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Расписание игр',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              'Предстоящие турниры',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Рейтинг игроков',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Записаться на игры',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 45),
+                            Text(
+                              'Support',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'FAQ',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Tutorial',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Contact',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 45),
+                            Text(
+                              'Connect',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 25),
+                            Text(
+                              'Forum',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Blog',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Social',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                height: 1.1,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            SizedBox(height: 40),
+                            Divider(
+                              color: Color(0xFF262626),
+                              thickness: 1.0,
+                              height: 20.0,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.facebook, color: Colors.white, size: 40),
+                        SizedBox(width: 20),
+                        Icon(Icons.telegram, color: Colors.white, size: 40),
+                        SizedBox(width: 20),
+                        Icon(Icons.watch, color: Colors.white, size: 40),
+                        SizedBox(width: 20),
+                        Icon(Icons.wallet, color: Colors.white, size: 40),
+                      ],
+                    ),
+                SizedBox(height: 25),
+                Center(
+                  child: Text(
+                    '© Mafia Madness 2023',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.archivo(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      height: 1.5,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 50),
+                  ],
                 ),
               ),
             ),

@@ -16,7 +16,7 @@ class LoginForm extends StatelessWidget {
     String email = emailController.text;
     String password = passwordController.text;
 
-    final url = Uri.parse("https://test.itfusion.kz/api/users/login");
+    final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/login");
 
     final response = await http.post(
       url,
@@ -81,7 +81,7 @@ class LoginForm extends StatelessWidget {
                             child: Text(
                               'Регистрация',
                               style: GoogleFonts.montserrat(
-                                fontSize: 2.25 * 16.0,
+                                fontSize: 30,
                                 color: Theme.of(context).brightness == Brightness.light
                                     ? Colors.grey
                                     : textColor,
@@ -109,7 +109,7 @@ class LoginForm extends StatelessWidget {
                             child: Text(
                               'Вход',
                               style: GoogleFonts.montserrat(
-                                fontSize: 2.25 * 16.0,
+                                fontSize: 30,
                                 fontWeight: FontWeight.w600,
                                 decoration: TextDecoration.underline,
                                 decorationColor: textColor,
