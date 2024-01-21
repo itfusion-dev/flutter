@@ -39,7 +39,7 @@ class FormScreen extends StatelessWidget {
       print("Registration failed with status code: ${response.statusCode}");
       print("Error response body: ${response.body}");
     }
-    print("Request Body: ${jsonEncode({"username": username, "password": password})}");
+    print("Request Body: ${jsonEncode({"email": email, "password": password})}");
   }
 
   @override
