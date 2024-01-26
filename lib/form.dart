@@ -20,7 +20,7 @@ class FormScreen extends StatelessWidget {
     String password = passwordController.text;
     String username = usernameController.text;
 
-    final url = Uri.parse("https://test.itfusion.kz/api/users/signup");
+    final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/signup");
 
     final response = await http.post(
       url,
@@ -78,7 +78,7 @@ class FormScreen extends StatelessWidget {
                           child: Text(
                             'Регистрация',
                             style: GoogleFonts.montserrat(
-                              fontSize: 2.25 * 16.0,
+                              fontSize: 30,
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).brightness == Brightness.light
                                   ? textColor
@@ -108,7 +108,7 @@ class FormScreen extends StatelessWidget {
                             child: Text(
                               'Вход',
                               style: GoogleFonts.montserrat(
-                                fontSize: 2.25 * 16.0,
+                                fontSize: 30,
                                 color: Theme.of(context).brightness == Brightness.light
                                     ? Colors.grey
                                     : textColor,
