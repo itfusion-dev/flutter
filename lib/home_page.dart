@@ -9,7 +9,7 @@ import 'form.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
-
+  //userInfo ? HasInfoComponent : Nothing
   @override
 
   State<MyHomePage> createState() => _MyHomePageState();
@@ -350,8 +350,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     clipBehavior: Clip.none,
                     alignment: Alignment.center,
                     children: <Widget>[
-                      CustomPaint(
-                        painter: EllipsePainter(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: CustomPaint(
+                          painter: EllipsePainter(),
+                        ),
                       ),
                       Positioned(
                         child: Text(
@@ -417,19 +420,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       overflow: TextOverflow.visible,
                     ),
                     SizedBox(height: 25),
-                    Text(
-                      responseText,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.archivo(
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF0A100D),
-                        fontSize: 18.0,
-                        height: 1.5,
-                      ),
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                    ),
-                    SizedBox(height: 25),
+                    // Text(
+                    //   responseText,
+                    //   textAlign: TextAlign.center,
+                    //   style: GoogleFonts.archivo(
+                    //     fontWeight: FontWeight.w500,
+                    //     color: Color(0xFF0A100D),
+                    //     fontSize: 18.0,
+                    //     height: 1.5,
+                    //   ),
+                    //   softWrap: true,
+                    //   overflow: TextOverflow.visible,
+                    // ),
+                    // SizedBox(height: 25),
                     Text(
                       'Not only can you register for upcoming games, but you can also browse '
                           'our exhilarating game schedule and plot out your next epic betrayal.',

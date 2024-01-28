@@ -3,6 +3,8 @@ import 'package:flutter_mobile/form.dart';
 import 'package:flutter_mobile/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'home_page.dart';
+
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({Key? key}) : super(key: key);
 
@@ -33,13 +35,24 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start, // выравнивание к началу строки
             children: [
-              Container(
-                padding: EdgeInsets.only(right: 40.0),
-                child: Text(
-                  'ГЛАВНАЯ',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w500,
-                    color: textColor,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => MyHomePage(),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.only(right: 40.0),
+                  child: Text(
+                    'ГЛАВНАЯ',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w500,
+                      color: textColor,
+                    ),
                   ),
                 ),
               ),
@@ -137,7 +150,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ],
           ),
         if (!isLandscape)
-          InkWell(
+          GestureDetector(
             onTap: () {
               Scaffold.of(context).openEndDrawer();
             },
