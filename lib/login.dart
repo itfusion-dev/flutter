@@ -6,35 +6,64 @@ import 'drawer.dart';
 import 'form.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatelessWidget {
 
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
-  void login() async {
+  Future<void> login() async {
     String email = emailController.text;
     String password = passwordController.text;
 
     final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/login");
 
-    final response = await http.post(
-      url,
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "email": email,
-        "password": password,
-      }),
-    );
+    try {
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": email,
+          "password": password,
+        }),
+      );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      print("Login successful");
-    } else {
-      print("Login failed with status code: ${response.statusCode}");
-      print("Error response body: ${response.body}");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map<String, dynamic>? responseData = json.decode(response.body);
+
+        if (responseData != null && responseData.containsKey('accessToken')) {
+          // Store the token securely using SharedPreferences
+          await saveToken(responseData['accessToken']);
+
+          // Save the token for future requests
+          print("Login successful ${response.body}");
+        } else {
+          print("Invalid response format: accessToken not found ${response.body}");
+          print("Full response body: ${response.body}");
+        }
+      } else {
+        print("Login failed with status code: ${response.statusCode}");
+        print("Error response body: ${response.body}");
+      }
+    } catch (error) {
+      print("Error during login: $error");
     }
   }
 
+  Future<void> saveToken(String token) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('accessToken', token);
+  }
+
+  Future<String?> readToken() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString('accessToken');
+  }
+  Future<void> removeToken() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove('accessToken');
+  }
   @override
   Widget build(BuildContext context) {
     double hue = 1.0;
