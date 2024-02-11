@@ -6,6 +6,7 @@ import 'home_page.dart';
 import 'login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
 
@@ -21,12 +22,12 @@ class CustomDrawer extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
-      width: 220,
+      width: 260,
       child: ListView(
         children: <Widget>[
           Container(
             alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
             child: IconButton(
               icon: Icon(
                 Icons.close,
@@ -59,13 +60,15 @@ class CustomDrawer extends StatelessWidget {
           ),
           Builder(
             builder: (context) {
-              return FutureBuilder<String?>(
-                future: LoginForm().readToken(),
+              return FutureBuilder<Map<String, dynamic>>(
+                future: LoginForm().getUserInfo(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    final token = snapshot.data;
+                    final token = snapshot.data?['token'];
+                    final isRegistered = snapshot.data?['isRegistered'];
+
                     if (token != null) {
-                      print("User Token: $token");
+                      // User is logged in
                       return ListTile(
                         title: Center(
                           child: Text(
@@ -76,9 +79,9 @@ class CustomDrawer extends StatelessWidget {
                           ),
                         ),
                         onTap: () async {
-                          await LoginForm().removeToken(); // Remove the token
+                          await LoginForm().removeToken();
                           print("User logged out");
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
                               pageBuilder: (_, __, ___) => MyHomePage(),
@@ -88,48 +91,74 @@ class CustomDrawer extends StatelessWidget {
                         },
                       );
                     } else {
-                      return Column(
-                        children: [
-                          ListTile(
-                            title: Center(
-                              child: Text(
-                                'ВХОД',
-                                style: GoogleFonts.montserrat(
-                                  color: textColor,
-                                ),
+                      if (isRegistered == true) {
+                        // User is registered but not logged in
+                        return ListTile(
+                          title: Center(
+                            child: Text(
+                              'ВЫЙТИ',
+                              style: GoogleFonts.montserrat(
+                                color: textColor,
                               ),
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) => LoginForm(),
-                                  transitionDuration: Duration(seconds: 0),
-                                ),
-                              );
-                            },
                           ),
-                          ListTile(
-                            title: Center(
-                              child: Text(
-                                'ХОЧУ ПОИГРАТЬ',
-                                style: GoogleFonts.montserrat(
-                                  color: textColor,
+                          onTap: () async {
+                            await FormScreen().logout();
+                            print("User logged out");
+                            Navigator.pushReplacement(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (_, __, ___) => MyHomePage(),
+                                transitionDuration: Duration(seconds: 0),
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        // User is not registered
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Center(
+                                child: Text(
+                                  'ЗАРЕГИСТРИРОВАТЬСЯ',
+                                  style: GoogleFonts.montserrat(
+                                    color: textColor,
+                                  ),
                                 ),
                               ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) => FormScreen(),
+                                    transitionDuration: Duration(seconds: 0),
+                                  ),
+                                );
+                              },
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) => FormScreen(),
-                                  transitionDuration: Duration(seconds: 0),
+                            ListTile(
+                              title: Center(
+                                child: Text(
+                                  'ВОЙТИ',
+                                  style: GoogleFonts.montserrat(
+                                    color: textColor,
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        ],
-                      );
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) => LoginForm(),
+                                    transitionDuration: Duration(seconds: 0),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      }
                     }
                   } else {
                     return Container();

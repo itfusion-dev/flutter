@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'app_bar.dart';
 import 'drawer.dart';
 import 'home_page.dart';
@@ -34,12 +35,23 @@ class FormScreen extends StatelessWidget {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print("Registration successful");
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.setBool('registered', true);
+      print("Registration successful ${response.body}");
     } else {
       print("Registration failed with status code: ${response.statusCode}");
       print("Error response body: ${response.body}");
     }
-    print("Request Body: ${jsonEncode({"email": email, "password": password})}");
+  }
+
+  Future<bool?> isRegistered() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool('registered') ?? false;
+  }
+
+  Future<void> logout() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove('registered');
   }
 
   @override

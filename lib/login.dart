@@ -56,14 +56,23 @@ class LoginForm extends StatelessWidget {
     await preferences.setString('accessToken', token);
   }
 
-  Future<String?> readToken() async {
+  Future<Map<String, dynamic>> getUserInfo() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString('accessToken');
+    String? token = preferences.getString('accessToken');
+    bool isRegistered = preferences.getBool('registered') ?? false;
+
+    return {
+      'token': token,
+      'isRegistered': isRegistered,
+    };
   }
+
   Future<void> removeToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.remove('accessToken');
+    print("User logged out");
   }
+
   @override
   Widget build(BuildContext context) {
     double hue = 1.0;

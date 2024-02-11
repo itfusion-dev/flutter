@@ -155,7 +155,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               Scaffold.of(context).openEndDrawer();
             },
             child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
               child: Icon(
                 Icons.menu,
                 color: textColor,
