@@ -9,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class FormScreen extends StatelessWidget {
-
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -46,7 +45,8 @@ class FormScreen extends StatelessWidget {
 
           print("Registration successful ${response.body}");
         } else {
-          print("Invalid response format: accessToken not found ${response.body}");
+          print(
+              "Invalid response format: accessToken not found ${response.body}");
           print("Full response body: ${response.body}");
         }
       } else {
@@ -57,6 +57,7 @@ class FormScreen extends StatelessWidget {
       print("Error during registration: $error");
     }
   }
+
   Future<void> saveToken(String token) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('accessToken', token);
@@ -78,7 +79,8 @@ class FormScreen extends StatelessWidget {
     double hue = 1.0;
     double saturation = 0.6;
     double lightness = 0.4;
-    Color textColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    Color textColor =
+        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
 
     return Scaffold(
       appBar: const MyAppBar(),
@@ -111,7 +113,8 @@ class FormScreen extends StatelessWidget {
                             style: GoogleFonts.montserrat(
                               fontSize: 30,
                               fontWeight: FontWeight.w600,
-                              color: Theme.of(context).brightness == Brightness.light
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
                                   ? textColor
                                   : Colors.red,
                               decoration: TextDecoration.underline,
@@ -140,7 +143,8 @@ class FormScreen extends StatelessWidget {
                               'Вход',
                               style: GoogleFonts.montserrat(
                                 fontSize: 30,
-                                color: Theme.of(context).brightness == Brightness.light
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
                                     ? Colors.grey
                                     : textColor,
                               ),
@@ -331,7 +335,8 @@ class FormScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 12.0),
                         ),
                         child: Text(
                           'Зарегистрироваться',

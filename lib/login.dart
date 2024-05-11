@@ -9,7 +9,6 @@ import 'home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatelessWidget {
-
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
@@ -35,13 +34,12 @@ class LoginForm extends StatelessWidget {
         if (responseData != null && responseData.containsKey('accessToken')) {
           await saveToken(responseData['accessToken']);
           print("Login successful ${response.body}");
-        }
-        else {
-          print("Invalid response format: accessToken not found ${response.body}");
+        } else {
+          print(
+              "Invalid response format: accessToken not found ${response.body}");
           print("Full response body: ${response.body}");
         }
-      }
-      else {
+      } else {
         print("Login failed with status code: ${response.statusCode}");
         print("Error response body: ${response.body}");
       }
@@ -77,12 +75,13 @@ class LoginForm extends StatelessWidget {
     double hue = 1.0;
     double saturation = 0.6;
     double lightness = 0.4;
-    Color textColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    Color textColor =
+        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
 
     return Scaffold(
-        appBar: const MyAppBar(),
-        endDrawer: const CustomDrawer(),
-        body: LayoutBuilder(
+      appBar: const MyAppBar(),
+      endDrawer: const CustomDrawer(),
+      body: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = 600;
           if (constraints.maxWidth < 1200) {
@@ -107,10 +106,10 @@ class LoginForm extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                                PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) => FormScreen(),
-                                  transitionDuration: Duration(seconds: 0),
-                                ),
+                              PageRouteBuilder(
+                                pageBuilder: (_, __, ___) => FormScreen(),
+                                transitionDuration: Duration(seconds: 0),
+                              ),
                             );
                           },
                           child: Padding(
@@ -119,7 +118,8 @@ class LoginForm extends StatelessWidget {
                               'Регистрация',
                               style: GoogleFonts.montserrat(
                                 fontSize: 30,
-                                color: Theme.of(context).brightness == Brightness.light
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
                                     ? Colors.grey
                                     : textColor,
                               ),
@@ -150,7 +150,8 @@ class LoginForm extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                                 decoration: TextDecoration.underline,
                                 decorationColor: textColor,
-                                color: Theme.of(context).brightness == Brightness.light
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
                                     ? textColor
                                     : Colors.red,
                               ),
@@ -175,30 +176,30 @@ class LoginForm extends StatelessWidget {
                         ],
                       ),
                     ),
-                      Container(
-                        padding: EdgeInsets.only(left: 40.0, right: 40.0),
-                        margin: EdgeInsets.only(top: 5.0),
-                        child: TextField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color.fromRGBO(231, 231, 231, 1.0),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            labelText: 'example@email.com',
-                            labelStyle: TextStyle(
-                              color: Colors.grey.shade700,
-                            ),
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                    Container(
+                      padding: EdgeInsets.only(left: 40.0, right: 40.0),
+                      margin: EdgeInsets.only(top: 5.0),
+                      child: TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color.fromRGBO(231, 231, 231, 1.0),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                          style: GoogleFonts.montserrat(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.w600,
+                          labelText: 'example@email.com',
+                          labelStyle: TextStyle(
+                            color: Colors.grey.shade700,
                           ),
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                        ),
+                        style: GoogleFonts.montserrat(
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
+                    ),
                     Container(
                       padding: EdgeInsets.only(left: 40.0),
                       margin: EdgeInsets.only(top: 25.0),
@@ -260,7 +261,8 @@ class LoginForm extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 12.0),
                         ),
                         child: Text(
                           'Войти',
@@ -268,17 +270,17 @@ class LoginForm extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                             fontSize: 20.0,
-                            ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

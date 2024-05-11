@@ -31,8 +31,7 @@ class _MyAppBarState extends State<MyAppBar> {
 
     if (token != null) {
       await getUserProfile(token);
-    }
-    else {
+    } else {
       setState(() {
         username = null;
       });
@@ -51,7 +50,6 @@ class _MyAppBarState extends State<MyAppBar> {
       setState(() {
         username = responseData['username'];
       });
-
     } else {
       print("Failed to fetch user profile");
     }
@@ -62,8 +60,10 @@ class _MyAppBarState extends State<MyAppBar> {
     double hue = 1.0;
     double saturation = 0.6;
     double lightness = 0.4;
-    Color textColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
-    bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    Color textColor =
+        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return AppBar(
       title: Text(
@@ -150,10 +150,12 @@ class _MyAppBarState extends State<MyAppBar> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(13.0),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
                   ),
                   child: Text(
-                    username != null ? '$username' : 'Хочу Поиграть',                    style: GoogleFonts.montserrat(
+                    username != null ? '$username' : 'Хочу Поиграть',
+                    style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                       fontSize: 15.0,
@@ -183,7 +185,8 @@ class _MyAppBarState extends State<MyAppBar> {
                           width: 2.0,
                         ),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
                     ),
                     child: Text(
                       'Войти',
