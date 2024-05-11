@@ -33,16 +33,15 @@ class LoginForm extends StatelessWidget {
         final Map<String, dynamic>? responseData = json.decode(response.body);
 
         if (responseData != null && responseData.containsKey('accessToken')) {
-          // Store the token securely using SharedPreferences
           await saveToken(responseData['accessToken']);
-
-          // Save the token for future requests
           print("Login successful ${response.body}");
-        } else {
+        }
+        else {
           print("Invalid response format: accessToken not found ${response.body}");
           print("Full response body: ${response.body}");
         }
-      } else {
+      }
+      else {
         print("Login failed with status code: ${response.statusCode}");
         print("Error response body: ${response.body}");
       }
@@ -56,14 +55,23 @@ class LoginForm extends StatelessWidget {
     await preferences.setString('accessToken', token);
   }
 
-  Future<String?> readToken() async {
+  Future<Map<String, dynamic>> getUserInfo() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString('accessToken');
+    String? token = preferences.getString('accessToken');
+    bool isRegistered = preferences.getBool('registered') ?? false;
+
+    return {
+      'token': token,
+      'isRegistered': isRegistered,
+    };
   }
+
   Future<void> removeToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.remove('accessToken');
+    print("User logged out");
   }
+
   @override
   Widget build(BuildContext context) {
     double hue = 1.0;
@@ -204,15 +212,15 @@ class LoginForm extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          // Add more Text widgets or other widgets as needed
                         ],
                       ),
                     ),
-                  Container(
+                    Container(
                       padding: EdgeInsets.only(left: 40.0, right: 40.0),
                       margin: EdgeInsets.only(top: 5.0),
                       child: TextField(
                         controller: passwordController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color.fromRGBO(231, 231, 231, 1.0),

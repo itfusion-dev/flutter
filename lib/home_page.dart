@@ -9,7 +9,6 @@ import 'form.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
-  //userInfo ? HasInfoComponent : Nothing
   @override
 
   State<MyHomePage> createState() => _MyHomePageState();
@@ -80,51 +79,36 @@ class LeafLikePainter extends CustomPainter {
       ..style = PaintingStyle.stroke // Stroke style
       ..strokeWidth = 2; // Width of the border
 
-    // Define the path for the square with convex and concave corners
     final path = Path();
-
-    // Concave corners radius
     final double concaveRadius = 30.0;
-    // Convex corners are drawn with a curve that extends to half of the square size
     final double convexRadius = size.width / 2;
 
-    // Move to the start of the top-left concave corner arc
     path.moveTo(concaveRadius, 0);
-
-    // Top side to the start of the top-right convex corner
     path.lineTo(size.width - convexRadius, 0);
 
-    // Top-right convex corner
     path.arcToPoint(
       Offset(size.width, convexRadius),
       radius: Radius.circular(convexRadius),
       clockwise: true,
     );
 
-    // Right side to the start of the bottom-right concave corner arc
     path.lineTo(size.width, size.height - concaveRadius);
-
-    // Bottom-right concave corner
     path.arcToPoint(
       Offset(size.width - concaveRadius, size.height),
       radius: Radius.circular(concaveRadius),
       clockwise: true,
     );
 
-    // Bottom side to the start of the bottom-left convex corner
     path.lineTo(convexRadius, size.height);
 
-    // Bottom-left convex corner
     path.arcToPoint(
       Offset(0, size.height - convexRadius),
       radius: Radius.circular(convexRadius),
       clockwise: true,
     );
 
-    // Left side to the start of the top-left concave corner arc
     path.lineTo(0, concaveRadius);
 
-    // Top-left concave corner
     path.arcToPoint(
       Offset(concaveRadius, 0),
       radius: Radius.circular(concaveRadius),
@@ -146,26 +130,20 @@ class RoundedSquarePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final borderPaint = Paint()
-      ..color = Color(0xFFC4C3B5)  // Border color
-      ..style = PaintingStyle.stroke // Stroke style
-      ..strokeWidth = 2; // Width of the border
+      ..color = Color(0xFFC4C3B5)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
 
-    // Define the path for the square
     final path = Path();
 
-    // Calculate the size of the square. We're making it as large as possible
-    // while fitting in the given size, and keeping it centered
     final squareSize = min(size.width, size.height);
     final offset = Offset((size.width - squareSize) / 2, (size.height - squareSize) / 2);
 
-    // Define a rectangle with rounded corners
     final rect = Rect.fromLTWH(offset.dx, offset.dy, squareSize, squareSize);
     final radius = Radius.circular(30);
 
-    // Add the rounded rectangle to the path
     path.addRRect(RRect.fromRectAndRadius(rect, radius));
 
-    // Draw the path
     canvas.drawPath(path, paint);
     canvas.drawPath(path, borderPaint);
   }
@@ -182,28 +160,22 @@ class CakePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final borderPaint = Paint()
-      ..color = Color(0xFFC4C3B5)  // Border color
-      ..style = PaintingStyle.stroke // Stroke style
-      ..strokeWidth = 2; // Width of the border
+      ..color = Color(0xFFC4C3B5)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
 
     final Path path = Path();
 
-    // Larger radius for the top convex corners
-    final double topConvexRadius = size.width / 2; // Adjust for desired curvature
-    // Smaller radius for the bottom convex corners
-    final double bottomConvexRadius = 30.0; // Adjust for desired curvature
-
-    // Start from the bottom left corner
+    final double topConvexRadius = size.width / 2;
+    final double bottomConvexRadius = 30.0;
     path.moveTo(0, size.height - bottomConvexRadius);
 
-    // Bottom left convex corner
     path.arcToPoint(
       Offset(bottomConvexRadius, size.height),
       radius: Radius.circular(bottomConvexRadius),
       clockwise: false,
     );
 
-    // Bottom side to bottom right convex corner
     path.lineTo(size.width - bottomConvexRadius, size.height);
     path.arcToPoint(
       Offset(size.width, size.height - bottomConvexRadius),
@@ -211,7 +183,6 @@ class CakePainter extends CustomPainter {
       clockwise: false,
     );
 
-    // Right side to top right convex corner
     path.lineTo(size.width, topConvexRadius);
     path.arcToPoint(
       Offset(size.width - topConvexRadius, 0),
@@ -219,7 +190,6 @@ class CakePainter extends CustomPainter {
       clockwise: false,
     );
 
-    // Top side to top left convex corner
     path.lineTo(topConvexRadius, 0);
     path.arcToPoint(
       Offset(0, topConvexRadius),
@@ -227,7 +197,6 @@ class CakePainter extends CustomPainter {
       clockwise: false,
     );
 
-    // Close the path by connecting back to the starting point
     path.lineTo(0, size.height - bottomConvexRadius);
 
     canvas.drawPath(path, paint);
@@ -246,28 +215,22 @@ class CustomConvexCornerPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final borderPaint = Paint()
-      ..color = Color(0xFFC4C3B5)  // Border color
-      ..style = PaintingStyle.stroke // Stroke style
-      ..strokeWidth = 2; // Width of the border
+      ..color = Color(0xFFC4C3B5)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
 
     final Path path = Path();
 
-    // Radius for the 200-degree convex corners
-    final double largeConvexRadius = size.width / 2; // Adjust for desired curvature
-    // Radius for the 30-degree convex corner
-    final double smallConvexRadius = 30.0; // Adjust for desired curvature
-
-    // Start from the bottom left corner
+    final double largeConvexRadius = size.width / 2;
+    final double smallConvexRadius = 30.0;
     path.moveTo(0, size.height - largeConvexRadius);
 
-    // Bottom left convex corner (200 degrees)
     path.arcToPoint(
       Offset(largeConvexRadius, size.height),
       radius: Radius.circular(largeConvexRadius),
       clockwise: false,
     );
 
-    // Bottom side to bottom right convex corner (200 degrees)
     path.lineTo(size.width - largeConvexRadius, size.height);
     path.arcToPoint(
       Offset(size.width, size.height - largeConvexRadius),
@@ -275,7 +238,6 @@ class CustomConvexCornerPainter extends CustomPainter {
       clockwise: false,
     );
 
-    // Right side to top right convex corner (30 degrees)
     path.lineTo(size.width, smallConvexRadius);
     path.arcToPoint(
       Offset(size.width - smallConvexRadius, 0),
@@ -283,7 +245,6 @@ class CustomConvexCornerPainter extends CustomPainter {
       clockwise: false,
     );
 
-    // Top side to top left convex corner (200 degrees)
     path.lineTo(largeConvexRadius, 0);
     path.arcToPoint(
       Offset(0, largeConvexRadius),
@@ -291,7 +252,6 @@ class CustomConvexCornerPainter extends CustomPainter {
       clockwise: false,
     );
 
-    // Close the path by connecting back to the starting point
     path.lineTo(0, size.height - largeConvexRadius);
 
     canvas.drawPath(path, paint);
@@ -303,6 +263,7 @@ class CustomConvexCornerPainter extends CustomPainter {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isExpanded = false;
   String responseText = '';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -722,7 +683,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Container(
+            GestureDetector(
+              onTap: () {
+              setState(() {
+              isExpanded = !isExpanded;
+              });
+            },
+            child: Container(
               color: Color(0xFFD6D5C9),
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -778,6 +745,123 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   TableRow(
+                    children: [
+                      TableCell(
+                        child: Container(
+                          margin: EdgeInsets.only(left: MediaQuery.of(context).orientation == Orientation.landscape ? 50.0 : 30.0),
+                          child: AnimatedContainer(
+                            alignment: Alignment.topLeft,
+                            duration: Duration(milliseconds: 300),
+                            height: isExpanded ? 100.0 : 0,
+                            child: isExpanded
+                                ? Container(
+                              color: Color(0xFFD6D5C9),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Table(
+                                      columnWidths: {
+                                        0: FixedColumnWidth(260.0),
+                                      },
+                                      children: [
+                                        TableRow(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(top: 13.0),
+                                              child: Text(
+                                                '19:30 Myata Navoyi',
+                                                style: GoogleFonts.archivo(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color(0xFF0A100D),
+                                                  fontSize: 19.0,
+                                                  height: 1.5,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        TableRow(
+                                          children: [
+                                            Text(
+                                              'Price: 2500 KZT',
+                                              style: GoogleFonts.archivo(
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xFF0A100D),
+                                                fontSize: 19.0,
+                                                height: 1.5,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        TableRow(
+                                          children: [
+                                            Container(
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      // Добавьте функциональность для ссылки "участники"
+                                                    },
+                                                      child: Text(
+                                                        'участники',
+                                                        style: TextStyle(
+                                                          decoration: TextDecoration.underline,
+                                                          color: textColor,
+                                                          fontSize: 12.0,
+                                                        ),
+                                                      ),
+
+                                                  ),
+                                                  SizedBox(width: 20),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      // Добавьте функциональность для ссылки "расписание"
+                                                    },
+                                                    child: Text(
+                                                      'расписание',
+                                                      style: TextStyle(
+                                                        decoration: TextDecoration.underline,
+                                                        color: textColor,
+                                                        fontSize: 12.0,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 20),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      // Добавьте функциональность для ссылки "список игр"
+                                                    },
+                                                    child: Text(
+                                                      'список игр',
+                                                      style: TextStyle(
+                                                        decoration: TextDecoration.underline,
+                                                        color: textColor,
+                                                        fontSize: 12.0,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                                : null,
+                          ),
+                        ),
+                      ),
+                      SizedBox(),
+                      SizedBox(),
+                    ],
+                  ),
+                  TableRow(
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
@@ -787,7 +871,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       3, // Number of columns in the table
                           (_) => Padding(
                           padding: EdgeInsets.symmetric(horizontal: 23.0),
-                          child: SizedBox(height: 20.0),
+                            child: SizedBox(height: 20.0),
                       ),
                     ),
                   ),
@@ -853,7 +937,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       3, // Number of columns in the table
                           (_) => Padding(
                         padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: SizedBox(height: 20.0),
+                          child: SizedBox(height: 20.0),
                       ),
                     ),
                   ),
@@ -919,7 +1003,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       3, // Number of columns in the table
                           (_) => Padding(
                         padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: SizedBox(height: 20.0),
+                          child: SizedBox(height: 20.0),
                       ),
                     ),
                   ),
@@ -1036,12 +1120,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             Icons.arrow_forward_outlined,
                             size: 36.0,
                             color: Color(0xFF0A100D),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
