@@ -15,7 +15,7 @@ class FormScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
 
-  void register() async {
+  Future<void> register() async {
     String name = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
@@ -23,25 +23,43 @@ class FormScreen extends StatelessWidget {
 
     final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/signup");
 
-    final response = await http.post(
-      url,
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "name": name,
-        "email": email,
-        "password": password,
-        "username": username,
-      }),
-    );
+    try {
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "name": name,
+          "email": email,
+          "password": password,
+          "username": username,
+        }),
+      );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.setBool('registered', true);
-      print("Registration successful ${response.body}");
-    } else {
-      print("Registration failed with status code: ${response.statusCode}");
-      print("Error response body: ${response.body}");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map<String, dynamic>? responseData = json.decode(response.body);
+
+        if (responseData != null && responseData.containsKey('accessToken')) {
+          await saveToken(responseData['accessToken']);
+
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.setBool('registered', true);
+
+          print("Registration successful ${response.body}");
+        } else {
+          print("Invalid response format: accessToken not found ${response.body}");
+          print("Full response body: ${response.body}");
+        }
+      } else {
+        print("Registration failed with status code: ${response.statusCode}");
+        print("Error response body: ${response.body}");
+      }
+    } catch (error) {
+      print("Error during registration: $error");
     }
+  }
+  Future<void> saveToken(String token) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('accessToken', token);
   }
 
   Future<bool?> isRegistered() async {
@@ -52,6 +70,7 @@ class FormScreen extends StatelessWidget {
   Future<void> logout() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.remove('registered');
+    await preferences.remove('accessToken');
   }
 
   @override
@@ -143,7 +162,6 @@ class FormScreen extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          // Add more Text widgets or other widgets as needed
                         ],
                       ),
                     ),
@@ -183,7 +201,6 @@ class FormScreen extends StatelessWidget {
                               color: textColor,
                               fontWeight: FontWeight.w600,
                             ),
-                            // Add more Text widgets or other widgets as needed
                           ),
                         ],
                       ),
@@ -274,6 +291,7 @@ class FormScreen extends StatelessWidget {
                       margin: EdgeInsets.only(top: 5.0),
                       child: TextField(
                         controller: passwordController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color.fromRGBO(231, 231, 231, 1.0),
