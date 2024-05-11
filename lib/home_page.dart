@@ -10,7 +10,6 @@ import 'form.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
   @override
-
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
@@ -28,11 +27,13 @@ class EllipsePainter extends CustomPainter {
     _drawRotatedEllipse(canvas, center, -12, paint..color = Colors.black);
   }
 
-  void _drawRotatedEllipse(Canvas canvas, Offset center, double rotation, Paint paint) {
+  void _drawRotatedEllipse(
+      Canvas canvas, Offset center, double rotation, Paint paint) {
     canvas.save();
     canvas.translate(center.dx, center.dy);
     canvas.rotate(rotation * pi / 180);
-    canvas.drawOval(Rect.fromCenter(center: Offset.zero, width: 370, height: 185), paint);
+    canvas.drawOval(
+        Rect.fromCenter(center: Offset.zero, width: 370, height: 185), paint);
     canvas.restore();
   }
 
@@ -55,11 +56,14 @@ class DoubleEllipsePainter extends CustomPainter {
     _drawRotatedEllipse(canvas, center, -26, 377.967, 199.267, paint);
   }
 
-  void _drawRotatedEllipse(Canvas canvas, Offset center, double rotation, double width, double height, Paint paint) {
+  void _drawRotatedEllipse(Canvas canvas, Offset center, double rotation,
+      double width, double height, Paint paint) {
     canvas.save();
     canvas.translate(center.dx, center.dy);
     canvas.rotate(rotation * pi / 180);
-    canvas.drawOval(Rect.fromCenter(center: Offset.zero, width: width, height: height), paint);
+    canvas.drawOval(
+        Rect.fromCenter(center: Offset.zero, width: width, height: height),
+        paint);
     canvas.restore();
   }
 
@@ -75,7 +79,7 @@ class LeafLikePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final borderPaint = Paint()
-      ..color = Color(0xFFC4C3B5)  // Border color
+      ..color = Color(0xFFC4C3B5) // Border color
       ..style = PaintingStyle.stroke // Stroke style
       ..strokeWidth = 2; // Width of the border
 
@@ -118,6 +122,7 @@ class LeafLikePainter extends CustomPainter {
     canvas.drawPath(path, paint);
     canvas.drawPath(path, borderPaint);
   }
+
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
@@ -137,7 +142,8 @@ class RoundedSquarePainter extends CustomPainter {
     final path = Path();
 
     final squareSize = min(size.width, size.height);
-    final offset = Offset((size.width - squareSize) / 2, (size.height - squareSize) / 2);
+    final offset =
+        Offset((size.width - squareSize) / 2, (size.height - squareSize) / 2);
 
     final rect = Rect.fromLTWH(offset.dx, offset.dy, squareSize, squareSize);
     final radius = Radius.circular(30);
@@ -274,8 +280,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> fetchData() async {
-    final response = await http.get(
-        Uri.parse('https://mafia.test.itfusion.xyz/api/users'));
+    final response =
+        await http.get(Uri.parse('https://mafia.test.itfusion.xyz/api/users'));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -293,7 +299,8 @@ class _MyHomePageState extends State<MyHomePage> {
     double hue = 1.0;
     double saturation = 0.6;
     double lightness = 0.4;
-    Color textColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    Color textColor =
+        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
     return Scaffold(
       key: _scaffoldKey,
       appBar: MyAppBar(),
@@ -369,8 +376,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(height: 25),
                     Text(
                       'Join the wildest, pulse-pounding online mafia games available! '
-                          'Put your cunning skills to the test and outwit your opponents '
-                          'in this thrilling gaming arena.',
+                      'Put your cunning skills to the test and outwit your opponents '
+                      'in this thrilling gaming arena.',
                       style: GoogleFonts.archivo(
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF0A100D),
@@ -396,7 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // SizedBox(height: 25),
                     Text(
                       'Not only can you register for upcoming games, but you can also browse '
-                          'our exhilarating game schedule and plot out your next epic betrayal.',
+                      'our exhilarating game schedule and plot out your next epic betrayal.',
                       style: GoogleFonts.archivo(
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF0A100D),
@@ -685,441 +692,467 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             GestureDetector(
               onTap: () {
-              setState(() {
-              isExpanded = !isExpanded;
-              });
-            },
-            child: Container(
-              color: Color(0xFFD6D5C9),
-              child: Table(
-                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                columnWidths: {
-                  0: FixedColumnWidth(80.0),
-                  1: FixedColumnWidth(150.0),
-                  2: FixedColumnWidth(30.0),
-                },
-                children: [
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'October 18, 2023',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
+              child: Container(
+                color: Color(0xFFD6D5C9),
+                child: Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  columnWidths: {
+                    0: FixedColumnWidth(80.0),
+                    1: FixedColumnWidth(150.0),
+                    2: FixedColumnWidth(30.0),
+                  },
+                  children: [
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'October 18, 2023',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF0A100D),
+                                fontSize: 19.0,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Turf War Tuesday',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.arrow_forward_outlined,
+                              size: 36.0,
                               color: Color(0xFF0A100D),
-                              fontSize: 19.0,
-                              height: 1.5,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Turf War Tuesday',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 19.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_forward_outlined,
-                            size: 36.0,
-                            color: Color(0xFF0A100D),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Container(
-                          margin: EdgeInsets.only(left: MediaQuery.of(context).orientation == Orientation.landscape ? 50.0 : 30.0),
-                          child: AnimatedContainer(
-                            alignment: Alignment.topLeft,
-                            duration: Duration(milliseconds: 300),
-                            height: isExpanded ? 100.0 : 0,
-                            child: isExpanded
-                                ? Container(
-                              color: Color(0xFFD6D5C9),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Table(
-                                      columnWidths: {
-                                        0: FixedColumnWidth(260.0),
-                                      },
-                                      children: [
-                                        TableRow(
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        TableCell(
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: MediaQuery.of(context).orientation ==
+                                        Orientation.landscape
+                                    ? 50.0
+                                    : 30.0),
+                            child: AnimatedContainer(
+                              alignment: Alignment.topLeft,
+                              duration: Duration(milliseconds: 300),
+                              height: isExpanded ? 100.0 : 0,
+                              child: isExpanded
+                                  ? Container(
+                                      color: Color(0xFFD6D5C9),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 13.0),
-                                              child: Text(
-                                                '19:30 Myata Navoyi',
-                                                style: GoogleFonts.archivo(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xFF0A100D),
-                                                  fontSize: 19.0,
-                                                  height: 1.5,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        TableRow(
-                                          children: [
-                                            Text(
-                                              'Price: 2500 KZT',
-                                              style: GoogleFonts.archivo(
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xFF0A100D),
-                                                fontSize: 19.0,
-                                                height: 1.5,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        TableRow(
-                                          children: [
-                                            Container(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      // Добавьте функциональность для ссылки "участники"
-                                                    },
+                                            Table(
+                                              columnWidths: {
+                                                0: FixedColumnWidth(260.0),
+                                              },
+                                              children: [
+                                                TableRow(
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 13.0),
                                                       child: Text(
-                                                        'участники',
-                                                        style: TextStyle(
-                                                          decoration: TextDecoration.underline,
-                                                          color: textColor,
-                                                          fontSize: 12.0,
+                                                        '19:30 Myata Navoyi',
+                                                        style:
+                                                            GoogleFonts.archivo(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Color(0xFF0A100D),
+                                                          fontSize: 19.0,
+                                                          height: 1.5,
                                                         ),
                                                       ),
-
-                                                  ),
-                                                  SizedBox(width: 20),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      // Добавьте функциональность для ссылки "расписание"
-                                                    },
-                                                    child: Text(
-                                                      'расписание',
-                                                      style: TextStyle(
-                                                        decoration: TextDecoration.underline,
-                                                        color: textColor,
-                                                        fontSize: 12.0,
+                                                    ),
+                                                  ],
+                                                ),
+                                                TableRow(
+                                                  children: [
+                                                    Text(
+                                                      'Price: 2500 KZT',
+                                                      style:
+                                                          GoogleFonts.archivo(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            Color(0xFF0A100D),
+                                                        fontSize: 19.0,
+                                                        height: 1.5,
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(width: 20),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      // Добавьте функциональность для ссылки "список игр"
-                                                    },
-                                                    child: Text(
-                                                      'список игр',
-                                                      style: TextStyle(
-                                                        decoration: TextDecoration.underline,
-                                                        color: textColor,
-                                                        fontSize: 12.0,
+                                                  ],
+                                                ),
+                                                TableRow(
+                                                  children: [
+                                                    Container(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              // Добавьте функциональность для ссылки "участники"
+                                                            },
+                                                            child: Text(
+                                                              'участники',
+                                                              style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .underline,
+                                                                color:
+                                                                    textColor,
+                                                                fontSize: 12.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 20),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              // Добавьте функциональность для ссылки "расписание"
+                                                            },
+                                                            child: Text(
+                                                              'расписание',
+                                                              style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .underline,
+                                                                color:
+                                                                    textColor,
+                                                                fontSize: 12.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 20),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              // Добавьте функциональность для ссылки "список игр"
+                                                            },
+                                                            child: Text(
+                                                              'список игр',
+                                                              style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .underline,
+                                                                color:
+                                                                    textColor,
+                                                                fontSize: 12.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                                : null,
+                                      ),
+                                    )
+                                  : null,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(),
-                      SizedBox(),
-                    ],
-                  ),
-                  TableRow(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
-                      ),
+                        SizedBox(),
+                        SizedBox(),
+                      ],
                     ),
-                    children: List.generate(
-                      3, // Number of columns in the table
-                          (_) => Padding(
+                    TableRow(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom:
+                              BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
+                        ),
+                      ),
+                      children: List.generate(
+                        3, // Number of columns in the table
+                        (_) => Padding(
                           padding: EdgeInsets.symmetric(horizontal: 23.0),
-                            child: SizedBox(height: 20.0),
-                      ),
-                    ),
-                  ),
-                  TableRow(
-                    children: [
-                      SizedBox(height: 10.0),
-                      SizedBox(height: 5.0),
-                      SizedBox(height: 5.0),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'October 20, 2023',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF0A100D),
-                              fontSize: 19.0,
-                              height: 1.5,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Whack-A-Rat Thursday',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 19.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_forward_outlined,
-                            size: 36.0,
-                            color: Color(0xFF0A100D),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
-                      ),
-                    ),
-                    children: List.generate(
-                      3, // Number of columns in the table
-                          (_) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
                           child: SizedBox(height: 20.0),
+                        ),
                       ),
                     ),
-                  ),
-                  TableRow(
-                    children: [
-                      SizedBox(height: 10.0),
-                      SizedBox(height: 5.0),
-                      SizedBox(height: 5.0),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'October 22, 2023',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
+                    TableRow(
+                      children: [
+                        SizedBox(height: 10.0),
+                        SizedBox(height: 5.0),
+                        SizedBox(height: 5.0),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'October 20, 2023',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF0A100D),
+                                fontSize: 19.0,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Whack-A-Rat Thursday',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.arrow_forward_outlined,
+                              size: 36.0,
                               color: Color(0xFF0A100D),
-                              fontSize: 19.0,
-                              height: 1.5,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Sinister Saturday',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 19.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_forward_outlined,
-                            size: 36.0,
-                            color: Color(0xFF0A100D),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
-                      ),
+                      ],
                     ),
-                    children: List.generate(
-                      3, // Number of columns in the table
-                          (_) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
+                    TableRow(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom:
+                              BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
+                        ),
+                      ),
+                      children: List.generate(
+                        3, // Number of columns in the table
+                        (_) => Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
                           child: SizedBox(height: 20.0),
+                        ),
                       ),
                     ),
-                  ),
-                  TableRow(
-                    children: [
-                      SizedBox(height: 10.0),
-                      SizedBox(height: 5.0),
-                      SizedBox(height: 5.0),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'October 27, 2023',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
+                    TableRow(
+                      children: [
+                        SizedBox(height: 10.0),
+                        SizedBox(height: 5.0),
+                        SizedBox(height: 5.0),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'October 22, 2023',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF0A100D),
+                                fontSize: 19.0,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Sinister Saturday',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.arrow_forward_outlined,
+                              size: 36.0,
                               color: Color(0xFF0A100D),
-                              fontSize: 19.0,
-                              height: 1.5,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Double-Cross Wednesday',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 19.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                      ],
+                    ),
+                    TableRow(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom:
+                              BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_forward_outlined,
-                            size: 36.0,
-                            color: Color(0xFF0A100D),
-                          ),
+                      children: List.generate(
+                        3, // Number of columns in the table
+                        (_) => Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: SizedBox(height: 20.0),
                         ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
                       ),
                     ),
-                    children: List.generate(
-                      3, // Number of columns in the table
-                          (_) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: SizedBox(height: 20.0),
-                      ),
+                    TableRow(
+                      children: [
+                        SizedBox(height: 10.0),
+                        SizedBox(height: 5.0),
+                        SizedBox(height: 5.0),
+                      ],
                     ),
-                  ),
-                  TableRow(
-                    children: [
-                      SizedBox(height: 10.0),
-                      SizedBox(height: 5.0),
-                      SizedBox(height: 5.0),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'October 29, 2023',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'October 27, 2023',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF0A100D),
+                                fontSize: 19.0,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Double-Cross Wednesday',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.arrow_forward_outlined,
+                              size: 36.0,
                               color: Color(0xFF0A100D),
-                              fontSize: 19.0,
-                              height: 1.5,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Frenemy Friday',
-                            style: GoogleFonts.archivo(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 19.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                      ],
+                    ),
+                    TableRow(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom:
+                              BorderSide(width: 1.0, color: Color(0xFFC4C3B5)),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_forward_outlined,
-                            size: 36.0,
-                            color: Color(0xFF0A100D),
+                      children: List.generate(
+                        3, // Number of columns in the table
+                        (_) => Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: SizedBox(height: 20.0),
+                        ),
+                      ),
+                    ),
+                    TableRow(
+                      children: [
+                        SizedBox(height: 10.0),
+                        SizedBox(height: 5.0),
+                        SizedBox(height: 5.0),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'October 29, 2023',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF0A100D),
+                                fontSize: 19.0,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Frenemy Friday',
+                              style: GoogleFonts.archivo(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 23.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.arrow_forward_outlined,
+                              size: 36.0,
+                              color: Color(0xFF0A100D),
                             ),
                           ),
                         ),
@@ -1163,8 +1196,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             SizedBox(height: 25),
                             Text(
                               'Ready to dive into the gripping world of Mafia Madness? '
-                                  'Don’t wait any longer! Register, pick your game, and '
-                                  'start outsmarting your rivals today!',
+                              'Don’t wait any longer! Register, pick your game, and '
+                              'start outsmarting your rivals today!',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.archivo(
                                 fontWeight: FontWeight.w500,
@@ -1198,7 +1231,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.black,
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 12.0),
                           alignment: Alignment.center,
                           child: Text(
                             'Sign up now',
@@ -1396,16 +1430,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icon(Icons.wallet, color: Colors.white, size: 40),
                       ],
                     ),
-                SizedBox(height: 25),
-                Center(
-                  child: Text(
-                    '© Mafia Madness 2023',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.archivo(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      height: 1.5,
+                    SizedBox(height: 25),
+                    Center(
+                      child: Text(
+                        '© Mafia Madness 2023',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.archivo(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          height: 1.5,
                         ),
                       ),
                     ),

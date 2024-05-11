@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/login.dart';
+import 'package:flutter_mobile/timetable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'form.dart';
 import 'home_page.dart';
 import 'login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -16,7 +16,8 @@ class CustomDrawer extends StatelessWidget {
     double hue = 1.0;
     double saturation = 0.6;
     double lightness = 0.4;
-    Color iconColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    Color iconColor =
+        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
 
     return Drawer(
       shape: RoundedRectangleBorder(
@@ -190,7 +191,13 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Handle the tap on drawer item
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => TimetableScreen(),
+                  transitionDuration: Duration(seconds: 0),
+                ),
+              );
             },
           ),
           ListTile(
