@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'app_bar.dart';
 import 'drawer.dart';
@@ -38,6 +40,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
     }
   }
 
+  Future<void> _makeSocialMediaRequest(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Color textColor =
@@ -66,96 +76,119 @@ class _TimetableScreenState extends State<TimetableScreen> {
               overflow: TextOverflow.visible,
               textAlign: TextAlign.center,
             ),
-        Column(
-          children: gamesData.map((game) {
-            return Card(
-              color: const Color(0x7c7d86),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              margin: EdgeInsets.only(top: 20, right: 10, left: 10),
-              child: ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                title: Column(
-                  children: [
-                    Row(
+            Column(
+              children: gamesData.map((game) {
+                return Card(
+                  color: const Color(0x7c7d86),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: EdgeInsets.only(top: 20, right: 10, left: 10),
+                  child: ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    title: Column(
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Тип игры',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      'Тип игры',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Text(game['type'].toString()),
+                                  ),
+                                ],
                               ),
-                              Center(
-                                child: Text(game['type'].toString()),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 40),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Стоимость',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Center(
-                                child: Text(game['price'].toString()),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 40),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Клиент',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Center(
-                                child: Text(game['players'].join(', ')),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(), // Add a divider line
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse(game['date'])),
-                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                          ),
+                            SizedBox(width: 40),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      'Стоимость',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Text(game['price'].toString()),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 40),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      'Клиент',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Text(game['players'].join(', ')),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Divider(), // Add a divider line
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Text(
+                                    DateFormat('d MMM, HH:mm')
+                                        .format(DateTime.parse(game['date'])),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Link(
+                              target: LinkTarget.blank,
+                              uri: Uri.parse(
+                                  'https://2gis.kz/almaty/directions/points/76.930096,43.243167;70000001043890537'),
+                              builder: (context, followLink) => ElevatedButton(
+                                onPressed: followLink,
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    Colors.grey[800]!,
+                                  ),
+                                ),
+                                child: Text(
+                                  'Как добраться?',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),
-
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
-        )
-        ],
+                  ),
+                );
+              }).toList(),
+            )
+          ],
         ),
       ),
     );
