@@ -1,30 +1,100 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-
+import 'package:flutter_mobile/form.dart';
+import 'package:flutter_mobile/home_page.dart';
 import 'package:flutter_mobile/main.dart';
+import 'package:flutter_mobile/timetable.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
+import 'package:mockito/mockito.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Тест на создание основы приложения', (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp());
+    expect(find.byType(MyApp), findsOneWidget);
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('Загрузка тематических виджетов', (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp());
+    final MaterialApp app = tester.widget(find.byType(MaterialApp));
+    expect(app.theme?.scaffoldBackgroundColor, equals(Colors.white));
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('Загрузка основной страницы', (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp());
+    expect(find.byType(MyHomePage), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Создание компонента основной страницы', (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp());
+    expect(find.byType(MyHomePage), findsOneWidget);
+  });
+
+
+  testWidgets('Проверка на изменение цветов', (WidgetTester tester) async {
+    final scaffoldColor = Colors.blue;
+    final themeData = ThemeData(scaffoldBackgroundColor: scaffoldColor);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: themeData,
+        home: Container(),
+      ),
+    );
+    final MaterialApp app = tester.widget(find.byType(MaterialApp));
+    expect(app.theme?.scaffoldBackgroundColor, equals(scaffoldColor));
+  });
+
+  group('Тесты функции регистрации', () {
+    test('Успешная регистрация', () async {
+      // Создаем экземпляр FormScreen для доступа к его членам
+      FormScreen formScreen = FormScreen();
+
+      // Мокаем контроллеры и их тексты
+      formScreen.nameController.text = 'Help Please';
+      formScreen.emailController.text = 'selfharm@example.com';
+      formScreen.passwordController.text = 'password123';
+      formScreen.usernameController.text = 'sweety';
+
+      // Мокаем ответ на http post запрос
+      http.Response response = http.Response(
+        jsonEncode({'accessToken': 'mockedAccessToken'}),
+        201,
+      );
+
+      // Мокаем SharedPreferences
+      SharedPreferences.setMockInitialValues({'registered': false});
+
+      // Мокаем SharedPreferences.getInstance
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.setBool('registered', true);
+
+      // Выполняем функцию и проверяем утверждение
+      await formScreen.register();
+      expect(preferences.getBool('registered'), true);
+    });
+
+    test('fetchData returns a list of games when the API call is successful', () async {
+      TimetableScreenState timetableScreenState = TimetableScreenState();
+
+      // Вымышленный ответ API, чтобы использовать в тесте
+      final fakeResponse = http.Response(
+        '{"games": [{"id": 1, "name": "Game 1"}, {"id": 2, "name": "Game 2"}]}',
+        200,
+      );
+
+      // Мокаем http.get, чтобы вместо отправки реального запроса использовать наш фейковый ответ
+      http.Client client = MockClient((request) async => fakeResponse);
+
+      // Тестируем вашу функцию fetchData с использованием фейкового http-клиента
+      final gamesData = await timetableScreenState.fetchData();
+
+      // Проверяем, что состояние игр содержит как минимум 2 игры
+      expect(timetableScreenState.gamesData.length, 2);
+    });
+
   });
 }

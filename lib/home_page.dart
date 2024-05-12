@@ -1,8 +1,6 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'drawer.dart';
 import 'app_bar.dart';
 import 'form.dart';
@@ -13,6 +11,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+//отдельные классы для пользовательского дизайна с функциями прорисовки
 class EllipsePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -276,22 +275,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    final response =
-        await http.get(Uri.parse('https://mafia.test.itfusion.xyz/api/users'));
-
-    if (response.statusCode == 200) {
-      setState(() {
-        responseText = response.body;
-      });
-    } else {
-      setState(() {
-        responseText = 'Error: ${response.statusCode}';
-      });
-    }
   }
 
   @override
@@ -388,19 +371,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       overflow: TextOverflow.visible,
                     ),
                     SizedBox(height: 25),
-                    // Text(
-                    //   responseText,
-                    //   textAlign: TextAlign.center,
-                    //   style: GoogleFonts.archivo(
-                    //     fontWeight: FontWeight.w500,
-                    //     color: Color(0xFF0A100D),
-                    //     fontSize: 18.0,
-                    //     height: 1.5,
-                    //   ),
-                    //   softWrap: true,
-                    //   overflow: TextOverflow.visible,
-                    // ),
-                    // SizedBox(height: 25),
                     Text(
                       'Not only can you register for upcoming games, but you can also browse '
                       'our exhilarating game schedule and plot out your next epic betrayal.',
@@ -627,6 +597,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                         SizedBox(height: 30),
+                        //пользовательский виджет для отображения
+                        //элементов дизацна сверху вниз
                         Stack(
                           alignment: Alignment.topCenter,
                           children: <Widget>[
@@ -740,6 +712,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
+                    //кнопка для регистрации
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       margin: EdgeInsets.only(top: 20.0),
@@ -779,6 +752,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            //футер
             Container(
               color: Colors.black,
               child: Padding(

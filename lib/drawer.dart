@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/login.dart';
 import 'package:flutter_mobile/timetable.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart'; //импорт шрифтов напрямую
 import 'form.dart';
 import 'home_page.dart';
-import 'login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -59,17 +57,19 @@ class CustomDrawer extends StatelessWidget {
               );
             },
           ),
+          // пункт меню в зависимости от состояния авторизации
           Builder(
             builder: (context) {
               return FutureBuilder<Map<String, dynamic>>(
+                //получение информации о пользователе
                 future: LoginForm().getUserInfo(),
                 builder: (context, snapshot) {
+                  //проверка наличия токена авторизации
                   if (snapshot.connectionState == ConnectionState.done) {
                     final token = snapshot.data?['token'];
                     final isRegistered = snapshot.data?['isRegistered'];
-
                     if (token != null) {
-                      // User is logged in
+                      // пользователь зарегистрирован
                       return ListTile(
                         title: Center(
                           child: Text(
@@ -93,7 +93,7 @@ class CustomDrawer extends StatelessWidget {
                       );
                     } else {
                       if (isRegistered == true) {
-                        // User is registered but not logged in
+                        // пользователь есть в системе, но не вошел в аккаунт
                         return ListTile(
                           title: Center(
                             child: Text(
@@ -116,7 +116,7 @@ class CustomDrawer extends StatelessWidget {
                           },
                         );
                       } else {
-                        // User is not registered
+                        // пользователь не зарегистрирован
                         return Column(
                           children: [
                             ListTile(
@@ -151,7 +151,7 @@ class CustomDrawer extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                    pageBuilder: (_, __, ___) => LoginForm(),
+                                    pageBuilder: (_, __, ___) => LoginForm(), //переходы на страницы авторизации
                                     transitionDuration: Duration(seconds: 0),
                                   ),
                                 );
@@ -161,7 +161,9 @@ class CustomDrawer extends StatelessWidget {
                         );
                       }
                     }
-                  } else {
+                  }
+                  //если данные еще не получены, вернуть пустой контейнер
+                  else {
                     return Container();
                   }
                 },
@@ -210,7 +212,6 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Handle the tap on drawer item
             },
           ),
         ],
