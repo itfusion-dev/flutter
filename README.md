@@ -4,9 +4,8 @@ This Flutter application provides a customizable app for viewing games and its r
 
 #### Installation
 
-If you are have not worked with emulators yet, please look through instructions on the main page:
-      ```bash
-         https://developer.android.com/studio/run/emulator-commandline
+If you are have not worked with emulators yet, please look through instructions on the main page: 
+- `https://developer.android.com/studio/run/emulator-commandline`
 
 Please be aware of installing following SDKs:
 
