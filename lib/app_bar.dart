@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/form.dart';
 import 'package:flutter_mobile/login.dart';
+import 'package:flutter_mobile/timetable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -22,13 +23,15 @@ class _MyAppBarState extends State<MyAppBar> {
   @override
   void initState() {
     super.initState();
-    checkToken();
+    checkToken(); // проверка токена при инициализации
   }
 
+  // асинхронная функция для проверки токена
   Future<void> checkToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('accessToken');
 
+    // если токен есть, вызываем функцию для получения профиля пользователя
     if (token != null) {
       await getUserProfile(token);
     } else {
@@ -38,6 +41,7 @@ class _MyAppBarState extends State<MyAppBar> {
     }
   }
 
+  // асинхронная функция для получения профиля пользователя
   Future<void> getUserProfile(String token) async {
     final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/profile");
     final response = await http.get(
@@ -63,7 +67,7 @@ class _MyAppBarState extends State<MyAppBar> {
     Color textColor =
         HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
     bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+        MediaQuery.of(context).orientation == Orientation.landscape; // проверка ориентации устройства
 
     return AppBar(
       title: Text(
@@ -74,14 +78,14 @@ class _MyAppBarState extends State<MyAppBar> {
         ),
       ),
       backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: false, // отключение автоматического добавления кнопки назад
       elevation: 0,
       actions: <Widget>[
         if (isLandscape)
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (username != null)
+              if (username != null)  // если есть имя пользователя, отображаем соответствующие пункты меню
                 InkWell(
                   onTap: () {
                     Navigator.push(
@@ -103,23 +107,24 @@ class _MyAppBarState extends State<MyAppBar> {
                     ),
                   ),
                 ),
-              Container(
-                padding: EdgeInsets.only(right: 40.0),
-                child: Text(
-                  'О НАС',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w500,
-                    color: textColor,
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(right: 40.0),
-                child: Text(
-                  'РАСПИСАНИЕ ИГР',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w500,
-                    color: textColor,
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => TimetableScreen(),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.only(right: 40.0),
+                  child: Text(
+                    'РАСПИСАНИЕ ИГР',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w500,
+                      color: textColor,
+                    ),
                   ),
                 ),
               ),
@@ -163,7 +168,7 @@ class _MyAppBarState extends State<MyAppBar> {
                   ),
                 ),
               ),
-              if (username == null)
+              if (username == null) // если имя пользователя не установлено, отобразить "Войти"
                 Container(
                   padding: EdgeInsets.only(right: 20.0),
                   child: ElevatedButton(
@@ -200,7 +205,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
             ],
           ),
-        if (!isLandscape)
+        if (!isLandscape) // проверкаа альбомной ориентации экрана
           GestureDetector(
             onTap: () {
               Scaffold.of(context).openEndDrawer();

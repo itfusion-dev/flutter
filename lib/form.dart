@@ -6,7 +6,7 @@ import 'drawer.dart';
 import 'home_page.dart';
 import 'login.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http; //пакет для обработки http запросов
 
 class FormScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -14,14 +14,17 @@ class FormScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
 
+  // функция для выполнения регистрации пользователя
   Future<void> register() async {
     String name = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
     String username = usernameController.text;
 
+    //url ссылка для отправки запроса на сервер
     final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/signup");
 
+    //post запрос в формате json с информацией из соответствующих полей
     try {
       final response = await http.post(
         url,
@@ -34,9 +37,11 @@ class FormScreen extends StatelessWidget {
         }),
       );
 
+      //при положительной отправке, пользователь добавляется в систему
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic>? responseData = json.decode(response.body);
 
+        //получение токена авторизации
         if (responseData != null && responseData.containsKey('accessToken')) {
           await saveToken(responseData['accessToken']);
 
@@ -45,6 +50,7 @@ class FormScreen extends StatelessWidget {
 
           print("Registration successful ${response.body}");
         } else {
+          //при ошибке, вывести тело запроса для обработки
           print(
               "Invalid response format: accessToken not found ${response.body}");
           print("Full response body: ${response.body}");
@@ -58,16 +64,19 @@ class FormScreen extends StatelessWidget {
     }
   }
 
+  //функция сохранения токена в системе
   Future<void> saveToken(String token) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('accessToken', token);
   }
 
+//проверка на наличие пользователя в системе
   Future<bool?> isRegistered() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getBool('registered') ?? false;
   }
 
+  //функция выхода из аккаунта - удаление токена и проверки
   Future<void> logout() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.remove('registered');
@@ -98,6 +107,7 @@ class FormScreen extends StatelessWidget {
             ),
             child: Container(
               margin: EdgeInsets.only(top: 20),
+              //расчет при альбомной ориентации экрана
               height: MediaQuery.of(context).size.height - kToolbarHeight,
               child: SingleChildScrollView(
                 child: Column(
@@ -106,6 +116,8 @@ class FormScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        //если находимся на странице регистрации
+                        //жирный текст красного цвета
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Text(
@@ -285,7 +297,6 @@ class FormScreen extends StatelessWidget {
                               color: textColor,
                               fontWeight: FontWeight.w600,
                             ),
-                            // Add more Text widgets or other widgets as needed
                           ),
                         ],
                       ),
@@ -319,6 +330,7 @@ class FormScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 80.0, right: 80.0),
                       margin: EdgeInsets.only(top: 35.0),
                       width: double.infinity,
+                      //при успешной регистрации переход на основную страницу
                       child: ElevatedButton(
                         onPressed: () {
                           register();

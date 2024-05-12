@@ -12,12 +12,14 @@ class LoginForm extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
+  //проверка на авторизированного пользователя
   Future<void> login() async {
     String email = emailController.text;
     String password = passwordController.text;
 
     final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/login");
 
+    //post запрос с телом в формате json - если пользователь есть в системе
     try {
       final response = await http.post(
         url,
@@ -27,14 +29,16 @@ class LoginForm extends StatelessWidget {
           "password": password,
         }),
       );
-
+      //выдать токен при успешном запросе
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic>? responseData = json.decode(response.body);
 
         if (responseData != null && responseData.containsKey('accessToken')) {
           await saveToken(responseData['accessToken']);
           print("Login successful ${response.body}");
-        } else {
+        }
+        //обработка ошибок
+        else {
           print(
               "Invalid response format: accessToken not found ${response.body}");
           print("Full response body: ${response.body}");
@@ -48,11 +52,12 @@ class LoginForm extends StatelessWidget {
     }
   }
 
+  //сохранение токена
   Future<void> saveToken(String token) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('accessToken', token);
   }
-
+  //получение информации о пользователе по токену
   Future<Map<String, dynamic>> getUserInfo() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('accessToken');
