@@ -12,7 +12,7 @@ To integrate `flutter_mobile` into your Flutter project, follow these steps:
    ```bash
    git clone https://github.com/itfusion-dev/flutter
 
-## Copy Files
+#### Copy Files
 
 Copy the following files into your Flutter project directory:
 
@@ -23,7 +23,7 @@ Copy the following files into your Flutter project directory:
 - `app_bar.dart`
 - `drawer.dart`
 
-## Dependency Installation
+#### Dependency Installation
 
 Make sure to add the required dependencies to your `pubspec.yaml` file:
 
@@ -42,16 +42,13 @@ http_mock_adapter: ^0.6.1
 
 Then, run:
 
-```bash
 flutter pub get
 
-Import Files:
+#### Import Files:
 
 Import the necessary files into your Flutter project, typically at the top of your main Dart file:
 
-dart
-
-import 'package:flutter/material.dart';
+- `import 'package:flutter/material.dart';
 import 'package:flutter_mobile/form.dart';
 import 'package:flutter_mobile/login.dart';
 import 'package:flutter_mobile/timetable.dart';
@@ -59,7 +56,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'home_page.dart';
+import 'home_page.dart';`
 
 ## Getting Started
 
