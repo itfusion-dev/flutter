@@ -34,19 +34,18 @@ Copy the following files into your Flutter project directory:
 #### Dependency Installation
 
 Make sure to add the required dependencies to your `pubspec.yaml` file:
-
-dependencies:
-flutter:
-    sdk: flutter
-cupertino_icons: ^1.0.2
-http: ^0.13.6
-google_fonts: ^4.0.0
-shared_preferences: ^2.2.0
-intl: ^0.19.0
-url_launcher: ^6.2.6
-flutter_linkify: ^6.0.0
-mockito: ^5.4.4
-http_mock_adapter: ^0.6.1
+      dependencies:
+      flutter:
+          sdk: flutter
+      cupertino_icons: ^1.0.2
+      http: ^0.13.6
+      google_fonts: ^4.0.0
+      shared_preferences: ^2.2.0
+      intl: ^0.19.0
+      url_launcher: ^6.2.6
+      flutter_linkify: ^6.0.0
+      mockito: ^5.4.4
+      http_mock_adapter: ^0.6.1
 
 Then, run:
 
