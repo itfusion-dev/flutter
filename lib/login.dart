@@ -17,7 +17,7 @@ class LoginForm extends StatelessWidget {
     String email = emailController.text;
     String password = passwordController.text;
 
-    final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/login");
+    final url = Uri.parse("https://mafia.yc.itfusion.xyz/api/users/login");
 
     //post запрос с телом в формате json - если пользователь есть в системе
     try {

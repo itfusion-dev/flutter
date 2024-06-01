@@ -15,16 +15,14 @@ class FormScreen extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
 
   // функция для выполнения регистрации пользователя
-  Future<void> register() async {
+  Future<void> register(BuildContext context) async {
     String name = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
     String username = usernameController.text;
 
-    //url ссылка для отправки запроса на сервер
-    final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/signup");
+    final url = Uri.parse("https://mafia.yc.itfusion.xyz/api/users/signup");
 
-    //post запрос в формате json с информацией из соответствующих полей
     try {
       final response = await http.post(
         url,
@@ -37,22 +35,36 @@ class FormScreen extends StatelessWidget {
         }),
       );
 
-      //при положительной отправке, пользователь добавляется в систему
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic>? responseData = json.decode(response.body);
 
-        //получение токена авторизации
         if (responseData != null && responseData.containsKey('accessToken')) {
           await saveToken(responseData['accessToken']);
 
           SharedPreferences preferences = await SharedPreferences.getInstance();
           await preferences.setBool('registered', true);
 
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Registration Successful"),
+                content: Text("You have been successfully registered."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("OK"),
+                  ),
+                ],
+              );
+            },
+          );
+
           print("Registration successful ${response.body}");
         } else {
-          //при ошибке, вывести тело запроса для обработки
-          print(
-              "Invalid response format: accessToken not found ${response.body}");
+          print("Invalid response format: accessToken not found ${response.body}");
           print("Full response body: ${response.body}");
         }
       } else {
@@ -333,7 +345,7 @@ class FormScreen extends StatelessWidget {
                       //при успешной регистрации переход на основную страницу
                       child: ElevatedButton(
                         onPressed: () {
-                          register();
+                          register(context);
                           Navigator.push(
                             context,
                             PageRouteBuilder(

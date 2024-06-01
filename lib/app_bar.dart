@@ -20,6 +20,8 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _MyAppBarState extends State<MyAppBar> {
   String? username;
+  String playButtonText = 'Хочу Поиграть';
+
   @override
   void initState() {
     super.initState();
@@ -37,26 +39,38 @@ class _MyAppBarState extends State<MyAppBar> {
     } else {
       setState(() {
         username = null;
+        updatePlayButtonText();
       });
     }
   }
 
   // асинхронная функция для получения профиля пользователя
   Future<void> getUserProfile(String token) async {
-    final url = Uri.parse("https://mafia.test.itfusion.xyz/api/users/profile");
+    final url = Uri.parse("https://mafia.yc.itfusion.xyz/api/users/profile");
     final response = await http.get(
       url,
       headers: {"Authorization": "Bearer $token"},
     );
-
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       setState(() {
         username = responseData['username'];
+        updatePlayButtonText();
       });
+      return jsonDecode(response.body);
     } else {
       print("Failed to fetch user profile");
+      setState(() {
+        username = null;
+        updatePlayButtonText();
+      });
     }
+  }
+
+  void updatePlayButtonText() {
+    setState(() {
+      playButtonText = username != null ? '$username' : 'Хочу Поиграть';
+    });
   }
 
   @override
@@ -64,10 +78,89 @@ class _MyAppBarState extends State<MyAppBar> {
     double hue = 1.0;
     double saturation = 0.6;
     double lightness = 0.4;
-    Color textColor =
-        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape; // проверка ориентации устройства
+    Color textColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    Widget playButton() {
+      return Container(
+        padding: EdgeInsets.only(right: 15.0),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => FormScreen(),
+                transitionDuration: Duration(seconds: 0),
+              ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: textColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(13.0),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+          ),
+          child: Text(
+            playButtonText,
+            style: GoogleFonts.montserrat(
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+              fontSize: 15.0,
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget loginButton() {
+      return Container(
+        padding: EdgeInsets.only(left: 20.0, right: 10.0),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => LoginForm(),
+                transitionDuration: Duration(seconds: 0),
+              ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(13.0),
+              side: BorderSide(
+                color: textColor,
+                width: 2.0,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+          ),
+          child: Text(
+            'Войти',
+            style: GoogleFonts.montserrat(
+              fontWeight: FontWeight.w700,
+              color: textColor,
+              fontSize: 15.0,
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget textLink(String text, VoidCallback onPressed) {
+      return TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: GoogleFonts.montserrat(
+            fontWeight: FontWeight.w500,
+            color: textColor,
+          ),
+        ),
+      );
+    }
 
     return AppBar(
       title: Text(
@@ -78,134 +171,41 @@ class _MyAppBarState extends State<MyAppBar> {
         ),
       ),
       backgroundColor: Colors.white,
-      automaticallyImplyLeading: false, // отключение автоматического добавления кнопки назад
+      automaticallyImplyLeading: false,
       elevation: 0,
       actions: <Widget>[
         if (isLandscape)
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (username != null)  // если есть имя пользователя, отображаем соответствующие пункты меню
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => MyHomePage(),
-                        transitionDuration: Duration(seconds: 0),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(right: 40.0),
-                    child: Text(
-                      'ГЛАВНАЯ',
-                      style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w500,
-                        color: textColor,
-                      ),
-                    ),
+              textLink('ГЛАВНАЯ', () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => MyHomePage(),
+                    transitionDuration: Duration(seconds: 0),
                   ),
-                ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => TimetableScreen(),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.only(right: 40.0),
-                  child: Text(
-                    'РАСПИСАНИЕ ИГР',
-                    style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w500,
-                      color: textColor,
-                    ),
+                );
+              }),
+              SizedBox(width: 10),
+              textLink('РАСПИСАНИЕ', () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => TimetableScreen(),
+                    transitionDuration: Duration(seconds: 0),
                   ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(right: 30.0),
-                child: Text(
-                  'КОНТАКТЫ',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w500,
-                    color: textColor,
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(right: 15.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => FormScreen(),
-                        transitionDuration: Duration(seconds: 0),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: textColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(13.0),
-                    ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                  ),
-                  child: Text(
-                    username != null ? '$username' : 'Хочу Поиграть',
-                    style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                      fontSize: 15.0,
-                    ),
-                  ),
-                ),
-              ),
-              if (username == null) // если имя пользователя не установлено, отобразить "Войти"
-                Container(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => LoginForm(),
-                          transitionDuration: Duration(seconds: 0),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13.0),
-                        side: BorderSide(
-                          color: textColor,
-                          width: 2.0,
-                        ),
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                    ),
-                    child: Text(
-                      'Войти',
-                      style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w700,
-                        color: textColor,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                ),
+                );
+              }),
+              SizedBox(width: 10),
+              textLink('ДОСТИЖЕНИЯ', () {
+                // Define your action here
+              }),
+              if (username == null) loginButton(),
+              playButton(),
             ],
           ),
-        if (!isLandscape) // проверкаа альбомной ориентации экрана
+        if (!isLandscape)
           GestureDetector(
             onTap: () {
               Scaffold.of(context).openEndDrawer();

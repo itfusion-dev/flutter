@@ -1,13 +1,15 @@
-### Flutter App Documentation
+# Flutter App Documentation
+
+## Getting started
 
 This Flutter application provides a customizable app for viewing games and its reservation with dynamic menu options based on user authentication status and getting timetable through backend connection able to convert within landscape orientation.
 
-#### Installation
+### Installation
 
 To integrate `flutter_mobile` into your Flutter project, follow these steps:
 
 1. **Clone Repository:**
-   Clone the repository into your local development environment.
+   Go to project root and execute the following command in console to get the required dependencies:
 
    ```bash
    git clone https://github.com/itfusion-dev/flutter
@@ -27,7 +29,7 @@ Copy the following files into your Flutter project directory:
 
 Make sure to add the required dependencies to your `pubspec.yaml` file:
 
-dependencies:
+```yaml
 flutter:
     sdk: flutter
 cupertino_icons: ^1.0.2
@@ -39,18 +41,16 @@ url_launcher: ^6.2.6
 flutter_linkify: ^6.0.0
 mockito: ^5.4.4
 http_mock_adapter: ^0.6.1
-
+```
 Then, run:
 
 ```bash
 flutter pub get
+```
 
-Import Files:
+Import the necessary files into your Flutter project, typically at the top of your main.dart file:
 
-Import the necessary files into your Flutter project, typically at the top of your main Dart file:
-
-dart
-
+```
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/form.dart';
 import 'package:flutter_mobile/login.dart';
@@ -60,16 +60,33 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'home_page.dart';
+```
 
-## Getting Started
+### Folder Structure
+Here is the core folder structure which flutter provides.
 
-This project is a starting point for a Flutter application.
+```
+flutter-mobile/
+|- android
+|- build
+|- ios
+|- lib
+|- test
+```
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Explanation:
+1. **Dependencies Section in `pubspec.yaml`**:
+    - Make sure to indent your dependencies correctly under the `dependencies` key.
+    - Use proper YAML syntax.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. **Command to Get Dependencies**:
+    - Place the `flutter pub get` command in a separate code block for clarity.
+
+3. **Dart Import Statements**:
+    - Use Dart syntax highlighting for the import statements.
+
+By following this corrected format, the instructions should render correctly in markdown and be easier to follow.
+
+
+
