@@ -1,20 +1,26 @@
-# Flutter App Documentation
-
-## Getting started
+### Flutter App Documentation
 
 This Flutter application provides a customizable app for viewing games and its reservation with dynamic menu options based on user authentication status and getting timetable through backend connection able to convert within landscape orientation.
 
-### Installation
+#### Installation
+
+If you are have not worked with emulators yet, please look through instructions on the main page: 
+- `https://developer.android.com/studio/run/emulator-commandline`
+
+Please be aware of installing following SDKs:
+
+- `https://developer.android.com/tools/releases/platform-tools` - official Android web site Android SDK downloader
+- `https://dart.dev/get-dart` - official Dart web documentation site dart SDK downloader
 
 To integrate `flutter_mobile` into your Flutter project, follow these steps:
 
 1. **Clone Repository:**
-   Go to project root and execute the following command in console to get the required dependencies:
+   Clone the repository into your local development environment.
 
    ```bash
    git clone https://github.com/itfusion-dev/flutter
 
-## Copy Files
+#### Copy Files
 
 Copy the following files into your Flutter project directory:
 
@@ -25,10 +31,9 @@ Copy the following files into your Flutter project directory:
 - `app_bar.dart`
 - `drawer.dart`
 
-## Dependency Installation
+#### Dependency Installation
 
 Make sure to add the required dependencies to your `pubspec.yaml` file:
-
       dependencies:
       flutter:
           sdk: flutter
@@ -41,12 +46,11 @@ Make sure to add the required dependencies to your `pubspec.yaml` file:
       flutter_linkify: ^6.0.0
       mockito: ^5.4.4
       http_mock_adapter: ^0.6.1
-      
+
 Then, run:
 
-```bash
 flutter pub get
-```
+
 #### Import Files:
 
 Import the necessary files into your Flutter project, typically at the top of your main Dart file:
@@ -120,4 +124,15 @@ Import the necessary files into your Flutter project, typically at the top of yo
    
        </application>
 
+## Getting Started
 
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
