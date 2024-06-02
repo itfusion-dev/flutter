@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/login.dart';
-import 'package:flutter_mobile/timetable.dart';
+import 'package:flutter_mobile/pages/leaderboard.dart';
+import 'package:flutter_mobile/utils/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart'; //импорт шрифтов напрямую
+import '../pages/home_page.dart';
+import '../pages/timetable.dart';
 import 'form.dart';
-import 'home_page.dart';
+import 'login.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -62,7 +64,7 @@ class CustomDrawer extends StatelessWidget {
             builder: (context) {
               return FutureBuilder<Map<String, dynamic>>(
                 //получение информации о пользователе
-                future: LoginForm().getUserInfo(),
+                future: AuthService().getUserInfo(),
                 builder: (context, snapshot) {
                   //проверка наличия токена авторизации
                   if (snapshot.connectionState == ConnectionState.done) {
@@ -80,7 +82,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                         ),
                         onTap: () async {
-                          await LoginForm().removeToken();
+                          await AuthService().removeToken();
                           print("User logged out");
                           Navigator.pushReplacement(
                             context,
@@ -104,7 +106,7 @@ class CustomDrawer extends StatelessWidget {
                             ),
                           ),
                           onTap: () async {
-                            await FormScreen().logout();
+                            await AuthService().logout();
                             print("User logged out");
                             Navigator.pushReplacement(
                               context,
@@ -173,14 +175,20 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             title: Center(
               child: Text(
-                'О НАС',
+                'РЕЙТИНГ ИГРОКОВ',
                 style: GoogleFonts.montserrat(
                   color: textColor,
                 ),
               ),
             ),
             onTap: () {
-              // Handle the tap on drawer item
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => LeaderboardScreen(),
+                  transitionDuration: Duration(seconds: 0),
+                ),
+              );
             },
           ),
           ListTile(

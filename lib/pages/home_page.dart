@@ -1,9 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'drawer.dart';
-import 'app_bar.dart';
-import 'form.dart';
+
+import '../components/app_bar.dart';
+import '../components/drawer.dart';
+import '../components/form.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -309,7 +310,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Positioned(
                         child: Text(
-                          'ДОБРО ПОЖАЛОВАТЬ В MAFIA CLUB',
+                          'ДОБРО ПОЖАЛОВАТЬ В EMPIRE ALMATY MAFIA CLUB',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w700,
@@ -322,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Positioned(
                         bottom: -6,
                         child: Text(
-                          'Mafia Madness',
+                          'Empire Almaty',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w700,
@@ -346,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     SizedBox(height: 50),
                     Text(
-                      'WELCOME TO MAFIA MADNESS!',
+                      'ДОБРО ПОЖАЛОВАТЬ В EMPIRE ALMATY!',
                       style: GoogleFonts.silkscreen(
                         fontWeight: FontWeight.w500,
                         color: textColor,
@@ -358,9 +359,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(height: 25),
                     Text(
-                      'Join the wildest, pulse-pounding online mafia games available! '
-                      'Put your cunning skills to the test and outwit your opponents '
-                      'in this thrilling gaming arena.',
+                      'Присоединяйтесь к самым ярким и захватывающим играм мафии! Испытайте свои навыки убеждения и перехитрите своих противников на этой захватывающей игровой арене.',
                       style: GoogleFonts.archivo(
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF0A100D),
@@ -372,8 +371,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(height: 25),
                     Text(
-                      'Not only can you register for upcoming games, but you can also browse '
-                      'our exhilarating game schedule and plot out your next epic betrayal.',
+                      'Вы можете не только зарегистрироваться на предстоящие игры, но вы также можете просмотреть наше захватывающее расписание игр и придумайте свое следующее эпическое предательство.',
                       style: GoogleFonts.archivo(
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF0A100D),
@@ -397,7 +395,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     SizedBox(height: 50),
                     Text(
-                      'MEET THE GAMERS',
+                      'Встречайте игроков',
                       style: GoogleFonts.silkscreen(
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF0A100D),
