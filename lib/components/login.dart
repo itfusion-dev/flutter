@@ -1,25 +1,32 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import '../pages/home_page.dart';
+import '../utils/auth_service.dart';
 import 'app_bar.dart';
 import 'drawer.dart';
 import 'form.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'home_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  String errorMessage = ''; // Переменная для хранения сообщения об ошибке
+  final AuthService authService = AuthService();
 
-  //проверка на авторизированного пользователя
-  Future<void> login() async {
+  // Проверка на авторизированного пользователя
+  Future<void> login(BuildContext context) async {
     String email = emailController.text;
     String password = passwordController.text;
 
     final url = Uri.parse("https://mafia.yc.itfusion.xyz/api/users/login");
 
-    //post запрос с телом в формате json - если пользователь есть в системе
+    // POST запрос с телом в формате JSON - если пользователь есть в системе
     try {
       final response = await http.post(
         url,
@@ -29,50 +36,68 @@ class LoginForm extends StatelessWidget {
           "password": password,
         }),
       );
-      //выдать токен при успешном запросе
+
+      // Выдать токен при успешном запросе
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic>? responseData = json.decode(response.body);
 
         if (responseData != null && responseData.containsKey('accessToken')) {
-          await saveToken(responseData['accessToken']);
+          await authService.saveToken(responseData['accessToken']);
+
           print("Login successful ${response.body}");
-        }
-        //обработка ошибок
-        else {
+
+          // Показать диалог успешного входа
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("С возыращением!"),
+                content: Text("Вы успешно зашли в аккаунт!"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Закрыть диалог
+                      // Перейти на основную страницу
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyHomePage(),
+                        ),
+                      );
+                    },
+                    child: Text("OK"),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
           print(
               "Invalid response format: accessToken not found ${response.body}");
           print("Full response body: ${response.body}");
+          setState(() {
+            errorMessage = response.body;
+          });
         }
       } else {
         print("Login failed with status code: ${response.statusCode}");
         print("Error response body: ${response.body}");
+        setState(() {
+          if (response.statusCode == 422) {
+            errorMessage = "Пожалуйста проверьте корректность введенных данных";
+          } else if (response.statusCode == 401) {
+            errorMessage = "Неправильные введены данные или пользователь не существует";
+          } else {
+            errorMessage = response.body;
+          }
+        });
       }
     } catch (error) {
-      print("Error during login: $error");
+      print("Произошла ошибка: $error");
+      setState(() {
+        errorMessage = error.toString();
+      });
     }
-  }
-
-  //сохранение токена
-  Future<void> saveToken(String token) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('accessToken', token);
-  }
-  //получение информации о пользователе по токену
-  Future<Map<String, dynamic>> getUserInfo() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? token = preferences.getString('accessToken');
-    bool isRegistered = preferences.getBool('registered') ?? false;
-
-    return {
-      'token': token,
-      'isRegistered': isRegistered,
-    };
-  }
-
-  Future<void> removeToken() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.remove('accessToken');
-    print("User logged out");
   }
 
   @override
@@ -246,20 +271,27 @@ class LoginForm extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // Вывод сообщения об ошибке
+                    if (errorMessage.isNotEmpty)
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0, right: 40.0),
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          errorMessage,
+                          style: GoogleFonts.montserrat(
+                            fontSize: 14.0,
+                            color: Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     Container(
                       padding: EdgeInsets.only(left: 160.0, right: 160.0),
                       margin: EdgeInsets.only(top: 35.0),
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          login();
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => MyHomePage(),
-                              transitionDuration: Duration(seconds: 0),
-                            ),
-                          );
+                          login(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: textColor,

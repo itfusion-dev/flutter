@@ -6,10 +6,7 @@ This Flutter application provides a customizable app for viewing games and its r
 
 ### Installation
 
-To integrate `flutter_mobile` into your Flutter project, follow these steps:
-
 1. **Clone Repository:**
-   Go to project root and execute the following command in console to get the required dependencies:
 
    ```bash
    git clone https://github.com/itfusion-dev/flutter
@@ -31,7 +28,7 @@ Make sure to add the required dependencies to your `pubspec.yaml` file:
 
 ```yaml
 flutter:
-    sdk: flutter
+   sdk: flutter
 cupertino_icons: ^1.0.2
 http: ^0.13.6
 google_fonts: ^4.0.0
@@ -50,7 +47,7 @@ flutter pub get
 
 Import the necessary files into your Flutter project, typically at the top of your main.dart file:
 
-```
+```yaml
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/form.dart';
 import 'package:flutter_mobile/login.dart';
@@ -77,14 +74,14 @@ flutter-mobile/
 
 ### Explanation:
 1. **Dependencies Section in `pubspec.yaml`**:
-    - Make sure to indent your dependencies correctly under the `dependencies` key.
-    - Use proper YAML syntax.
+   - Make sure to indent your dependencies correctly under the `dependencies` key.
+   - Use proper YAML syntax.
 
 2. **Command to Get Dependencies**:
-    - Place the `flutter pub get` command in a separate code block for clarity.
+   - Place the `flutter pub get` command in a separate code block for clarity.
 
 3. **Dart Import Statements**:
-    - Use Dart syntax highlighting for the import statements.
+   - Use Dart syntax highlighting for the import statements.
 
 By following this corrected format, the instructions should render correctly in markdown and be easier to follow.
 

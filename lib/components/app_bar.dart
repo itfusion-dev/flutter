@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/form.dart';
-import 'package:flutter_mobile/login.dart';
-import 'package:flutter_mobile/timetable.dart';
+import 'package:flutter_mobile/pages/leaderboard.dart';
+import 'package:flutter_mobile/utils/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'home_page.dart';
+import '../pages/home_page.dart';
+import '../pages/timetable.dart';
+import 'form.dart';
+import 'login.dart';
 
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   const MyAppBar({Key? key}) : super(key: key);
@@ -57,7 +59,6 @@ class _MyAppBarState extends State<MyAppBar> {
         username = responseData['username'];
         updatePlayButtonText();
       });
-      return jsonDecode(response.body);
     } else {
       print("Failed to fetch user profile");
       setState(() {
@@ -69,7 +70,7 @@ class _MyAppBarState extends State<MyAppBar> {
 
   void updatePlayButtonText() {
     setState(() {
-      playButtonText = username != null ? '$username' : 'Хочу Поиграть';
+      playButtonText = username != null ? username! : 'Хочу Поиграть';
     });
   }
 
@@ -78,38 +79,99 @@ class _MyAppBarState extends State<MyAppBar> {
     double hue = 1.0;
     double saturation = 0.6;
     double lightness = 0.4;
-    Color textColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
-    bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    Color textColor =
+        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     Widget playButton() {
       return Container(
         padding: EdgeInsets.only(right: 15.0),
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => FormScreen(),
-                transitionDuration: Duration(seconds: 0),
+        child: playButtonText != 'Хочу Поиграть'
+            ? Container(
+                decoration: BoxDecoration(
+                  color: textColor,
+                  borderRadius: BorderRadius.circular(13.0),
+                ),
+                child: PopupMenuButton<String>(
+                  offset: Offset(0,
+                      30),
+                  onSelected: (String result) async {
+                    if (result == 'Выйти') {
+                      await AuthService().logout();
+                      await AuthService().removeToken();
+                      print("User logged out");
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => MyHomePage(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    }
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    PopupMenuItem<String>(
+                      value: 'Выйти',
+                      child: Text(
+                        'Выйти',
+                        style: GoogleFonts.montserrat(
+                          color: textColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                  child: ElevatedButton(
+                    onPressed: null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(13.0),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+                    ),
+                    child: Text(
+                      playButtonText,
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => FormScreen(),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: textColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(13.0),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+                ),
+                child: Text(
+                  playButtonText,
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    fontSize: 15.0,
+                  ),
+                ),
               ),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: textColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(13.0),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-          ),
-          child: Text(
-            playButtonText,
-            style: GoogleFonts.montserrat(
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              fontSize: 15.0,
-            ),
-          ),
-        ),
       );
     }
 
@@ -198,8 +260,14 @@ class _MyAppBarState extends State<MyAppBar> {
                 );
               }),
               SizedBox(width: 10),
-              textLink('ДОСТИЖЕНИЯ', () {
-                // Define your action here
+              textLink('РЕЙТИНГ ИГРОКОВ', () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => LeaderboardScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
+                );
               }),
               if (username == null) loginButton(),
               playButton(),

@@ -1,18 +1,25 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/utils/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../pages/home_page.dart';
 import 'app_bar.dart';
 import 'drawer.dart';
-import 'home_page.dart';
 import 'login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http; //пакет для обработки http запросов
 
-class FormScreen extends StatelessWidget {
+class FormScreen extends StatefulWidget {
+  @override
+  _FormScreenState createState() => _FormScreenState();
+}
+
+class _FormScreenState extends State<FormScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
+  String errorMessage = ''; // Переменная для хранения сообщения об ошибке
 
   // функция для выполнения регистрации пользователя
   Future<void> register(BuildContext context) async {
@@ -39,21 +46,29 @@ class FormScreen extends StatelessWidget {
         final Map<String, dynamic>? responseData = json.decode(response.body);
 
         if (responseData != null && responseData.containsKey('accessToken')) {
-          await saveToken(responseData['accessToken']);
+          await AuthService().saveToken(responseData['accessToken']);
 
           SharedPreferences preferences = await SharedPreferences.getInstance();
           await preferences.setBool('registered', true);
 
+          // Показать диалог успешной регистрации
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text("Registration Successful"),
-                content: Text("You have been successfully registered."),
+                title: Text("Вы успешно зарегистрировались!"),
+                content: Text("Пожалуйста проверьте почту для окончания верификации"),
                 actions: [
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop(); // Закрыть диалог
+                      // Перейти на основную страницу
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyHomePage(),
+                        ),
+                      );
                     },
                     child: Text("OK"),
                   ),
@@ -70,29 +85,35 @@ class FormScreen extends StatelessWidget {
       } else {
         print("Registration failed with status code: ${response.statusCode}");
         print("Error response body: ${response.body}");
+
+        if (response.statusCode == 422) {
+          final Map<String, dynamic> errorData = json.decode(response.body);
+          if (errorData.containsKey('error')) {
+            switch (errorData['error']) {
+              case 'Invalid input, check data.':
+                errorMessage = "Пожалуйста проверьте корректность данных";
+                break;
+              case 'User with such username or email already exists':
+                errorMessage = "Пользователь с таким логином или электронной почтой уже существует";
+                break;
+              default:
+                errorMessage = "Неизвестная ошибка: ${errorData['error']}";
+            }
+          } else {
+            errorMessage = "Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.";
+          }
+        } else {
+          errorMessage = "Произошла ошибка: ${response.body}";
+        }
       }
     } catch (error) {
       print("Error during registration: $error");
+      setState(() {
+        errorMessage = "Ошибка во время регистрации: $error";
+      });
     }
-  }
 
-  //функция сохранения токена в системе
-  Future<void> saveToken(String token) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('accessToken', token);
-  }
-
-//проверка на наличие пользователя в системе
-  Future<bool?> isRegistered() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getBool('registered') ?? false;
-  }
-
-  //функция выхода из аккаунта - удаление токена и проверки
-  Future<void> logout() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.remove('registered');
-    await preferences.remove('accessToken');
+    setState(() {}); // Обновить состояние для отображения сообщения об ошибке
   }
 
   @override
@@ -101,7 +122,7 @@ class FormScreen extends StatelessWidget {
     double saturation = 0.6;
     double lightness = 0.4;
     Color textColor =
-        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
 
     return Scaffold(
       appBar: const MyAppBar(),
@@ -119,7 +140,6 @@ class FormScreen extends StatelessWidget {
             ),
             child: Container(
               margin: EdgeInsets.only(top: 20),
-              //расчет при альбомной ориентации экрана
               height: MediaQuery.of(context).size.height - kToolbarHeight,
               child: SingleChildScrollView(
                 child: Column(
@@ -128,8 +148,6 @@ class FormScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        //если находимся на странице регистрации
-                        //жирный текст красного цвета
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Text(
@@ -138,7 +156,7 @@ class FormScreen extends StatelessWidget {
                               fontSize: 30,
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).brightness ==
-                                      Brightness.light
+                                  Brightness.light
                                   ? textColor
                                   : Colors.red,
                               decoration: TextDecoration.underline,
@@ -168,7 +186,7 @@ class FormScreen extends StatelessWidget {
                               style: GoogleFonts.montserrat(
                                 fontSize: 30,
                                 color: Theme.of(context).brightness ==
-                                        Brightness.light
+                                    Brightness.light
                                     ? Colors.grey
                                     : textColor,
                               ),
@@ -338,21 +356,26 @@ class FormScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    if (errorMessage.isNotEmpty)
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0, right: 40.0),
+                        margin: EdgeInsets.only(top: 25.0),
+                        child: Text(
+                          errorMessage,
+                          style: GoogleFonts.montserrat(
+                            fontSize: 18.0,
+                            color: Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     Container(
                       padding: EdgeInsets.only(left: 80.0, right: 80.0),
                       margin: EdgeInsets.only(top: 35.0),
                       width: double.infinity,
-                      //при успешной регистрации переход на основную страницу
                       child: ElevatedButton(
                         onPressed: () {
                           register(context);
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => MyHomePage(),
-                              transitionDuration: Duration(seconds: 0),
-                            ),
-                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: textColor,

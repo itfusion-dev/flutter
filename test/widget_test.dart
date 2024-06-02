@@ -1,10 +1,8 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/form.dart';
-import 'package:flutter_mobile/home_page.dart';
+import 'package:flutter_mobile/components/form.dart';
 import 'package:flutter_mobile/main.dart';
-import 'package:flutter_mobile/timetable.dart';
+import 'package:flutter_mobile/pages/home_page.dart';
+import 'package:flutter_mobile/pages/timetable.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -54,12 +52,6 @@ void main() {
     test('Успешная регистрация', () async {
       // Создаем экземпляр FormScreen для доступа к его членам
       FormScreen formScreen = FormScreen();
-
-      // Мокаем контроллеры и их тексты
-      formScreen.nameController.text = 'Help Please';
-      formScreen.emailController.text = 'selfharm@example.com';
-      formScreen.passwordController.text = 'password123';
-      formScreen.usernameController.text = 'sweety';
 
       // Мокаем ответ на http post запрос
       http.Response response = http.Response(

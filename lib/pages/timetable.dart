@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/home_page.dart';
+import 'package:flutter_mobile/components/drawer.dart';
+import 'package:flutter_mobile/utils/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/link.dart';
-import 'app_bar.dart';
-import 'login.dart';
+
+import '../components/app_bar.dart';
 
 class TimetableScreen extends StatefulWidget {
   @override
@@ -44,7 +45,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
   Future<void> addToQueue(String gameId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('accessToken');
-    print('Token retrieved: $token');
 
     final url = Uri.parse("https://mafia.yc.itfusion.xyz/api/users/profile");
     final response = await http.get(
@@ -54,7 +54,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
-      print('$responseData');
       final patchResponse = await http.patch(
         Uri.parse('https://mafia.yc.itfusion.xyz/api/users/queue'),
         headers: {
@@ -77,17 +76,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    Color textColor =
-    HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+    Color textColor = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Timetable Screen'),
-      ),
-      endDrawer: Drawer(),
+      appBar: MyAppBar(),
+      endDrawer: const CustomDrawer(),
       body: Container(
         color: const Color(0xFFD6D5C9),
         child: Column(
@@ -120,8 +115,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     ),
                     margin: EdgeInsets.only(top: 20, right: 10, left: 10),
                     child: ListTile(
-                      contentPadding:
-                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                       title: Column(
                         children: [
                           Row(
@@ -133,8 +127,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                     Center(
                                       child: Text(
                                         'Тип игры',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        style: TextStyle(fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     Center(
@@ -151,8 +144,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                     Center(
                                       child: Text(
                                         'Стоимость',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        style: TextStyle(fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     Center(
@@ -169,8 +161,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                     Center(
                                       child: Text(
                                         'Клиент',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        style: TextStyle(fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     Center(
@@ -189,38 +180,32 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                   child: Align(
                                     alignment: Alignment.topCenter,
                                     child: Text(
-                                      DateFormat('d MMM, HH:mm')
-                                          .format(DateTime.parse(game['date'])),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                      DateFormat('d MMM, HH:mm').format(DateTime.parse(game['date'])),
+                                      style: TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),
                               ),
                               FutureBuilder<Map<String, dynamic>>(
                                 // Getting user information
-                                future: LoginForm().getUserInfo(),
+                                future: AuthService().getUserInfo(),
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.done) {
+                                  if (snapshot.connectionState == ConnectionState.done) {
                                     final token = snapshot.data?['token'];
                                     if (token != null) {
                                       return ElevatedButton(
                                         onPressed: () async {
-                                          if (game['type'].toString() ==
-                                              'Funky') {
+                                          if (game['type'].toString() == 'Funky') {
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
                                                   title: Text("Запись успешна"),
-                                                  content: Text(
-                                                      "Вы записались на игру!"),
+                                                  content: Text("Вы записались на игру!"),
                                                   actions: <Widget>[
                                                     TextButton(
                                                       onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop(); // закрыть окно
+                                                        Navigator.of(context).pop(); // закрыть окно
                                                       },
                                                       child: Text("Закрыть"),
                                                     ),
@@ -228,24 +213,19 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                                 );
                                               },
                                             );
-                                          } else if (game['type'].toString() ==
-                                              'Ranked') {
+                                          } else if (game['type'].toString() == 'Ranked') {
                                             try {
                                               await addToQueue(game['id']);
                                               showDialog(
                                                 context: context,
-                                                builder:
-                                                    (BuildContext context) {
+                                                builder: (BuildContext context) {
                                                   return AlertDialog(
-                                                    title:
-                                                    Text("Бронь успешна"),
-                                                    content: Text(
-                                                        "Вы забронировали место на турнир!"),
+                                                    title: Text("Бронь успешна"),
+                                                    content: Text("Вы забронировали место на турнир!"),
                                                     actions: <Widget>[
                                                       TextButton(
                                                         onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop(); // закрыть окно
+                                                          Navigator.of(context).pop(); // закрыть окно
                                                         },
                                                         child: Text("Закрыть"),
                                                       ),
@@ -256,17 +236,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                             } catch (e) {
                                               showDialog(
                                                 context: context,
-                                                builder:
-                                                    (BuildContext context) {
+                                                builder: (BuildContext context) {
                                                   return AlertDialog(
                                                     title: Text("Ошибка"),
-                                                    content: Text(
-                                                        "Не удалось забронировать место."),
+                                                    content: Text("Не удалось забронировать место."),
                                                     actions: <Widget>[
                                                       TextButton(
                                                         onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop(); // закрыть окно
+                                                          Navigator.of(context).pop(); // закрыть окно
                                                         },
                                                         child: Text("Закрыть"),
                                                       ),
@@ -278,16 +255,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                           }
                                         },
                                         style: ButtonStyle(
-                                          backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          backgroundColor: MaterialStateProperty.all<Color>(
                                             Colors.grey[800]!,
                                           ),
                                         ),
                                         child: Text(
                                           game['status'] == 'booked'
                                               ? 'Забронировано'
-                                              : game['type'].toString() ==
-                                              'Funky'
+                                              : game['type'].toString() == 'Funky'
                                               ? 'Записаться'
                                               : 'Забронировать',
                                           style: TextStyle(color: Colors.white),
@@ -297,23 +272,19 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                   }
                                   return Link(
                                     target: LinkTarget.blank,
-                                    uri: Uri.parse(
-                                        'https://2gis.kz/almaty/directions/points/76.930096,43.243167;70000001043890537'),
-                                    builder: (context, followLink) =>
-                                        ElevatedButton(
-                                          onPressed: followLink,
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                              Colors.grey[800]!,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            'Как добраться?',
-                                            style: TextStyle(
-                                                color: Colors.white),
-                                          ),
+                                    uri: Uri.parse('https://2gis.kz/almaty/directions/points/76.930096,43.243167;70000001043890537'),
+                                    builder: (context, followLink) => ElevatedButton(
+                                      onPressed: followLink,
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all<Color>(
+                                          Colors.grey[800]!,
                                         ),
+                                      ),
+                                      child: Text(
+                                        'Как добраться?',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
