@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../components/app_bar.dart';
 import '../components/drawer.dart';
+import '../components/footer.dart';
 import '../components/form.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -22,9 +23,9 @@ class EllipsePainter extends CustomPainter {
 
     final Offset center = Offset(size.width / 2, size.height / 2);
 
-    _drawRotatedEllipse(canvas, center, 144, paint..color = Colors.black);
-    _drawRotatedEllipse(canvas, center, 12, paint..color = Colors.black);
-    _drawRotatedEllipse(canvas, center, -12, paint..color = Colors.black);
+    _drawRotatedEllipse(canvas, center, 144, paint..color = Colors.white);
+    _drawRotatedEllipse(canvas, center, 12, paint..color = Colors.white);
+    _drawRotatedEllipse(canvas, center, -12, paint..color = Colors.white);
   }
 
   void _drawRotatedEllipse(
@@ -290,6 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: MyAppBar(),
       endDrawer: const CustomDrawer(),
       body: Container(
+        color: Colors.black,
         child: ListView(
           children: <Widget>[
             Container(
@@ -314,7 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w700,
-                            color: textColor,
+                            color: Color(0xFFD6D5C9),
                             fontSize: 28.0,
                             height: 1.1,
                           ),
@@ -327,7 +329,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w700,
-                            color: textColor,
+                            color: Color(0xFFD6D5C9),
                             fontSize: 22.0,
                           ),
                         ),
@@ -350,7 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       'ДОБРО ПОЖАЛОВАТЬ В EMPIRE ALMATY!',
                       style: GoogleFonts.silkscreen(
                         fontWeight: FontWeight.w500,
-                        color: textColor,
+                        color: Colors.black,
                         fontSize: 30.0,
                         height: 1.1,
                       ),
@@ -407,9 +409,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(height: 25),
                     Text(
-                      'Join a growing community of Mafia enthusiasts. '
-                      'Bond, deceive, and conquer your way through'
-                      ' our captivating games!',
+                      'Присоединяйтесь к растущему сообществу игроков в мафию. Общайтесь, находите друзей и проложите свой путь к вершине рейтинга!',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.archivo(
                         fontWeight: FontWeight.w500,
@@ -433,13 +433,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             Positioned(
                               top: 60,
-                              child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage('web/assets/chipi.jpeg'),
+                              child: ClipOval(
+                                child: ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.saturation,
+                                  ),
+                                  child: Image.network(
+                                    'https://storage.yandexcloud.net/mafia-bucket/Rossolana.png',
+                                    width: 80,
+                                    height: 80,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -452,7 +455,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Positioned(
                               top: 60 + 55 + 50,
                               child: Text(
-                                "CHIPI THE KITTEN",
+                                "Г-жа Rossolana",
                                 style: GoogleFonts.silkscreen(
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF0A100D),
@@ -466,7 +469,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Positioned(
                               top: 60 + 95 + 50,
                               child: Text(
-                                "Influencer",
+                                "Лучший Дон",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.archivo(
                                   fontWeight: FontWeight.w500,
@@ -490,13 +493,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             Positioned(
                               top: 60,
-                              child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage('web/assets/chipi.jpeg'),
+                              child: ClipOval(
+                                child: ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.saturation,
+                                  ),
+                                  child: Image.network(
+                                    'https://storage.yandexcloud.net/mafia-bucket/dancepool.png',
+                                    width: 80,
+                                    height: 80,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -509,7 +515,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Positioned(
                               top: 60 + 55 + 50,
                               child: Text(
-                                "Cleo 'The Spy' Bishop",
+                                "Г-н Dancefloor",
                                 style: GoogleFonts.silkscreen(
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF0A100D),
@@ -523,7 +529,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Positioned(
                               top: 60 + 95 + 50,
                               child: Text(
-                                "Spy",
+                                "Лучший Мирный",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.archivo(
                                   fontWeight: FontWeight.w500,
@@ -547,13 +553,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             Positioned(
                               top: 60,
-                              child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage('web/assets/chipi.jpeg'),
+                              child: ClipOval(
+                                child: ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.saturation,
+                                  ),
+                                  child: Image.network(
+                                    'https://storage.yandexcloud.net/mafia-bucket/sandy.png',
+                                    width: 80,
+                                    height: 80,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -566,7 +575,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Positioned(
                               top: 60 + 55 + 50,
                               child: Text(
-                                "Frank 'The Snitch' Rizzo",
+                                "Г-жа Sandy ",
                                 style: GoogleFonts.silkscreen(
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF0A100D),
@@ -580,7 +589,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Positioned(
                               top: 60 + 95 + 50,
                               child: Text(
-                                "Enforcer",
+                                "Лучший Дон",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.archivo(
                                   fontWeight: FontWeight.w500,
@@ -596,7 +605,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         SizedBox(height: 30),
                         //пользовательский виджет для отображения
-                        //элементов дизацна сверху вниз
+                        //элементов дизайна сверху вниз
                         Stack(
                           alignment: Alignment.topCenter,
                           children: <Widget>[
@@ -606,13 +615,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             Positioned(
                               top: 60,
-                              child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage('web/assets/chipi.jpeg'),
+                              child: ClipOval(
+                                child: ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.saturation,
+                                  ),
+                                  child: Image.network(
+                                    'https://storage.yandexcloud.net/mafia-bucket/Smoke.png',
+                                    width: 80,
+                                    height: 80,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -625,7 +637,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Positioned(
                               top: 60 + 55 + 50,
                               child: Text(
-                                "Vera 'The Enforcer' Miles",
+                                "Г-н smoke",
                                 style: GoogleFonts.silkscreen(
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF0A100D),
@@ -639,7 +651,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Positioned(
                               top: 60 + 95 + 50,
                               child: Text(
-                                "Snitch",
+                                "Лучший Черный",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.archivo(
                                   fontWeight: FontWeight.w500,
@@ -681,7 +693,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'get started',
+                              'Приступим!',
                               style: GoogleFonts.silkscreen(
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xFF0A100D),
@@ -693,9 +705,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             SizedBox(height: 25),
                             Text(
-                              'Ready to dive into the gripping world of Mafia Madness? '
-                              'Don’t wait any longer! Register, pick your game, and '
-                              'start outsmarting your rivals today!',
+                              'Готовы погрузиться в захватывающий мир мафии с Empire ALmaty? Не ждите больше! Зарегистрируйтесь, выберите игру и начните перехитрять своих соперников сегодня!',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.archivo(
                                 fontWeight: FontWeight.w500,
@@ -734,7 +744,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               horizontal: 12.0, vertical: 12.0),
                           alignment: Alignment.center,
                           child: Text(
-                            'Sign up now',
+                            'Присоединиться',
                             style: GoogleFonts.archivo(
                               fontWeight: FontWeight.w500,
                               color: Color(0xFFD6D5C9),
@@ -750,204 +760,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            //футер
-            Container(
-              color: Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 50),
-                    Stack(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Расписание игр',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              'Предстоящие турниры',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              'Рейтинг игроков',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              'Записаться на игры',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 45),
-                            Text(
-                              'Support',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              'FAQ',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              'Tutorial',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              'Contact',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 45),
-                            Text(
-                              'Connect',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 25),
-                            Text(
-                              'Forum',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              'Blog',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              'Social',
-                              style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                height: 1.1,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                            SizedBox(height: 40),
-                            Divider(
-                              color: Color(0xFF262626),
-                              thickness: 1.0,
-                              height: 20.0,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 25),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.facebook, color: Colors.white, size: 40),
-                        SizedBox(width: 20),
-                        Icon(Icons.telegram, color: Colors.white, size: 40),
-                        SizedBox(width: 20),
-                        Icon(Icons.watch, color: Colors.white, size: 40),
-                        SizedBox(width: 20),
-                        Icon(Icons.wallet, color: Colors.white, size: 40),
-                      ],
-                    ),
-                    SizedBox(height: 25),
-                    Center(
-                      child: Text(
-                        '© Mafia Madness 2023',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.archivo(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 50),
-                  ],
-                ),
-              ),
-            ),
+            Footer(),
           ],
         ),
       ),
