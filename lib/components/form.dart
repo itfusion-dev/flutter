@@ -201,7 +201,7 @@ class _FormScreenState extends State<FormScreen> {
                       child: Column(
                         children: [
                           Text(
-                            'Полное имя:',
+                            'Введите имя:',
                             style: GoogleFonts.montserrat(
                               fontSize: 22.0,
                               color: textColor,

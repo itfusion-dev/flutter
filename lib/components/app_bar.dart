@@ -76,11 +76,6 @@ class _MyAppBarState extends State<MyAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    double hue = 1.0;
-    double saturation = 0.6;
-    double lightness = 0.4;
-    Color textColor =
-        HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
@@ -90,7 +85,7 @@ class _MyAppBarState extends State<MyAppBar> {
         child: playButtonText != 'Хочу Поиграть'
             ? Container(
                 decoration: BoxDecoration(
-                  color: textColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(13.0),
                 ),
                 child: PopupMenuButton<String>(
@@ -117,7 +112,7 @@ class _MyAppBarState extends State<MyAppBar> {
                       child: Text(
                         'Выйти',
                         style: GoogleFonts.montserrat(
-                          color: textColor,
+                          color: Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -138,7 +133,7 @@ class _MyAppBarState extends State<MyAppBar> {
                       playButtonText,
                       style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                        color: Colors.black87,
                         fontSize: 15.0,
                       ),
                     ),
@@ -156,9 +151,10 @@ class _MyAppBarState extends State<MyAppBar> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: textColor,
+                  backgroundColor: Colors.black87,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(13.0),
+                    side: BorderSide(color: Colors.white),
                   ),
                   padding:
                       EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
@@ -193,7 +189,7 @@ class _MyAppBarState extends State<MyAppBar> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(13.0),
               side: BorderSide(
-                color: textColor,
+                color: Colors.black87,
                 width: 2.0,
               ),
             ),
@@ -203,7 +199,7 @@ class _MyAppBarState extends State<MyAppBar> {
             'Войти',
             style: GoogleFonts.montserrat(
               fontWeight: FontWeight.w700,
-              color: textColor,
+              color: Colors.black87,
               fontSize: 15.0,
             ),
           ),
@@ -218,21 +214,24 @@ class _MyAppBarState extends State<MyAppBar> {
           text,
           style: GoogleFonts.montserrat(
             fontWeight: FontWeight.w500,
-            color: textColor,
+            color: Colors.white,
           ),
         ),
       );
     }
 
     return AppBar(
-      title: Text(
-        'Logotype',
-        style: GoogleFonts.montserrat(
-          color: textColor,
-          fontWeight: FontWeight.w700,
+      title: Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage('https://storage.yandexcloud.net/mafia-bucket/favicon.ico'),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black87,
       automaticallyImplyLeading: false,
       elevation: 0,
       actions: <Widget>[
@@ -282,7 +281,7 @@ class _MyAppBarState extends State<MyAppBar> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
               child: Icon(
                 Icons.menu,
-                color: textColor,
+                color: Colors.white,
                 size: 36.0,
               ),
             ),

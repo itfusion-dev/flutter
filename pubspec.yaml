@@ -80,6 +80,7 @@ flutter:
   # example:
   assets:
     - web/assets/
+    - web/icons/
 #  fonts:
 #    - family: Montserrat
 #      fonts:

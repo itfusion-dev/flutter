@@ -68,6 +68,9 @@ flutter-mobile/
 |- build
 |- ios
 |- lib
+|  - components/
+|  - pages/
+|  - utils/
 |- test
 ```
 
